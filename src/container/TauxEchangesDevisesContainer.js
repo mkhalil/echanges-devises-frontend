@@ -21,6 +21,9 @@ class TauxEchangesDevisesContainer extends React.Component {
         });
     }
 
+
+
+
     render() {
 
         return (
@@ -28,7 +31,8 @@ class TauxEchangesDevisesContainer extends React.Component {
                 <div className="form-row">
                     <div className="form-group col-md-2">
                         <label htmlFor="dateEchange">Date d'échange</label>
-                        <DatePicker selected={this.state.currentDate} dateFormat="dd/MM/YYYY" className="form-control" id="dateEchange" onChange={(date) => this.handleChange(date)}/>
+                        <DatePicker selected={this.state.currentDate} dateFormat="dd/MM/YYYY" className="form-control" id="dateEchange"
+                                    onChange={(date) => this.handleChange(date)}/>
                     </div>
                     <div className="form-group col-md-2">
                         <label htmlFor="devise">Devise</label>
@@ -41,7 +45,10 @@ class TauxEchangesDevisesContainer extends React.Component {
 
                     <div className="form-group col-md-2">
                         <label htmlFor="achatDevise">Achat</label>
-                        <input type="number" className="form-control" id="achatDevise" placeholder="Achat" step="0.01" min="0"/>
+                        <input type="number" className="form-control is-invalid" id="achatDevise" placeholder="Achat" step="0.01" min="0"/>
+                        <div className="invalid-feedback">
+                            Please choose a username.
+                        </div>
                     </div>
                     <div className="form-group col-md-2">
                         <label htmlFor="venteDevise">Vente</label>
