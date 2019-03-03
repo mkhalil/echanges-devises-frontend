@@ -2,27 +2,42 @@ import React from "react";
 
 
 const Input = (props) => {
-    let {label,name,type,value,handleChange,placeholder, errorValidation } = props;
+    let {name,type,value,handleChange,placeholder, validateMessage , validateField, required } = props;
 
     let errorDivMessage = '';
-    if (errorValidation != null) {
-        errorDivMessage = (<div className="errorMsg">
-            {errorValidation}
+    let className = 'form-control';
+    if (validateField === false) {
+        errorDivMessage = (<div className="invalid-feedback">
+            {validateMessage}
         </div>);
+        className = className + ' is-invalid';
+    }
+    let inputElement = <input className={className} id={name}
+                              name={name}
+                              type={type}
+                              value={value}
+                              onChange={handleChange}
+                              placeholder={placeholder}
+                              required={required}
+    />;
+    if (type === 'number') {
+        inputElement = <input className={className} id={name}
+                              name={name}
+                              type={type}
+                              value={value}
+                              onChange={handleChange}
+                              placeholder={placeholder}
+                              required={required}
+                              step="0.01"
+                              min="0"
+        />
     }
     return (
-        <div className="form-group row">
-            <label htmlFor={name} className="col-sm-2 col-form-label">{label}</label>
-            <div className="col-sm-10">
-            <input className="form-control" id={name}
-                                            name={name}
-                                            type={type}
-                                            value={value}
-                                            onChange={handleChange}
-                                            placeholder={placeholder} />
-                {errorDivMessage}
-            </div>
-        </div>
+
+        <React.Fragment>
+            {inputElement}
+            {errorDivMessage}
+        </React.Fragment>
     );
 }
 
