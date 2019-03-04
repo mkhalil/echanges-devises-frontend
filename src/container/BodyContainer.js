@@ -1,5 +1,5 @@
 import React from "react";
-import TauxEchangesDevisesContainer from "./TauxEchangesDevisesContainer";
+import TauxJournalierDeviseContainer from "./TauxJournalierDeviseContainer";
 
 class BodyContainer extends React.Component {
 
@@ -9,7 +9,7 @@ class BodyContainer extends React.Component {
             <div className="container container-pading-top">
                 <div className="row">
                     <div className="col-md-12">
-                      <TauxEchangesDevisesContainer/>
+                      <TauxJournalierDeviseContainer/>
                     </div>
                 </div>
             </div>
