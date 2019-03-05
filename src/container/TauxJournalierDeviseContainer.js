@@ -1,6 +1,8 @@
 import React from "react";
 import {connect} from 'react-redux';
 import * as actionTaux from '../actions/TauxJournalierDeviseAction';
+import TauxJournalierDeviseTableComponent from "../component/TauxJournalierDeviseTableComponent";
+import TauxJournalierDeviseFormComponent from "../component/TauxJournalierDeviseFormComponent";
 
 
 class TauxJournalierDeviseContainer extends React.Component {
@@ -16,12 +18,13 @@ class TauxJournalierDeviseContainer extends React.Component {
         this.props.dispatch(actionTaux.listTauxJournalierDevise());
     }
 
-
     render() {
-        console.log("PROPS MAP", this.props.tauxJournalierDevise);
 
         return (
+
             <div>
+                <TauxJournalierDeviseFormComponent/>
+                <TauxJournalierDeviseTableComponent listTauxJournalierDevise={this.props.listTauxJournalierDevise}/>
             </div>
         );
     }
@@ -29,7 +32,7 @@ class TauxJournalierDeviseContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        tauxJournalierDevise: state
+        listTauxJournalierDevise: state.listTauxJournalierDevise
     }
 }
 

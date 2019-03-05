@@ -5,11 +5,11 @@ export const addTauxJournalierDevise = (tauxJournalierDevise) => {
 
     return dispatch => {
 
+        console.log("AUUUUUUUUUUUUH MPPPPP");
         Api.post("/taux-echanges-devises", tauxJournalierDevise).then(v => {
-            NotificationManager.success('Enregistrement avec succès', 'Taux journalière');
             dispatch(listTauxJournalierDevise);
+            NotificationManager.success("jjjj", "AAAA");
         }).catch(error => {
-            NotificationManager.error(error.response.data.message, 'Error d\'enregistrement', 5000);
         });
 
     }
@@ -17,7 +17,10 @@ export const addTauxJournalierDevise = (tauxJournalierDevise) => {
 }
 
 export const listTauxJournalierDevise = () => {
+    console.log("listTauxJournalierDevise listTauxJournalierDevise");
+
     return dispatch => {
+
         Api.get("/taux-echanges-devises").then(result => {
                 console.log("result", result.data);
                 dispatch({type:'LIST_TAUX_ECHANGES_DEVISE', payload: result.data});

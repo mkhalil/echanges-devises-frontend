@@ -25,7 +25,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                 montantVente: montantVente,
                 deviseId: deviseId
             }
-            actionTaux.addTauxJournalierDevise(tauxJournalierDevise);
+            this.props.dispatch(actionTaux.addTauxJournalierDevise(tauxJournalierDevise));
         }
 
     }
@@ -56,7 +56,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
         return !validator.isEmpty(v);
     }
 
-    refreshTable;
 
     constructor(props) {
         super(props);
@@ -142,7 +141,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                         </div>
                     </div>
                 </form>
-                <button onClick={this.onClickOK}>OK</button>
             </React.Fragment>
 
         );
