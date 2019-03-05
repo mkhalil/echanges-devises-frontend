@@ -1,43 +1,24 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
-import Api from "../utiles/Api";
+import {Button, ButtonToolbar} from "react-bootstrap";
 
-class TauxJournalierDeviseTableComponent extends React.Component {
-
-    state = {
-        tauxJournalierDeviseListe: []
-    }
+const TauxJournalierDeviseTableComponent = (props) => {
 
 
-    constructor(props) {
-        super(props);
-    }
+    const tauxJournalierDeviseListe = props.tauxJournalierDeviseListe;
 
-    componentDidMount() {
-        Api.get("/taux-echanges-devises").then(result => {
-                console.log(result.data);
-                this.setState({tauxJournalierDeviseListe: result.data});
-            }
-        );
-    }
+    let tableBody = tauxJournalierDeviseListe.map(ligne => {
+        return (<LineTable key={ligne.id} tauxJournalierDevise={ligne}/>);
+    });
 
-
-
-    render() {
-        let tauxJournalierDeviseListe = this.state.tauxJournalierDeviseListe.map(ligne =>{
-            console.log(ligne);
-            return (<LineTable key={ligne.id} tauxJournalierDevise={ligne} /> );
-        });
-
-        return (
-            <Table responsive>
-                <HeaderTable />
-                <tbody>
-                    {tauxJournalierDeviseListe}
-                </tbody>
-            </Table>
-        );
-    }
+    return (
+        <Table responsive>
+            <HeaderTable/>
+            <tbody>
+            {tableBody}
+            </tbody>
+        </Table>
+    );
 }
 
 const LineTable = (props) => {
@@ -48,6 +29,10 @@ const LineTable = (props) => {
             <td>{tauxJournalierDevise.date}</td>
             <td>{tauxJournalierDevise.montantAchat}</td>
             <td>{tauxJournalierDevise.montantVente}</td>
+            <td>
+                <Button variant="secondary" className="mr-2">Editer</Button>
+                <Button variant="danger">Supprimer</Button>
+            </td>
         </tr>
     )
 }
@@ -60,6 +45,7 @@ const HeaderTable = (props) => {
             <th>Date</th>
             <th>Montant d'achat</th>
             <th>Montant du vente</th>
+            <th>Actions</th>
         </tr>
         </thead>
     );
