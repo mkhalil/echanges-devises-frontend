@@ -2,12 +2,10 @@ import React from "react";
 
 class LineTauxJournalierDeviseComponent extends React.Component{
 
-    tauxJournalierDevise;
 
     constructor(props) {
         super(props);
         this.tauxJournalierDevise = props.tauxJournalierDevise;
-        this.state = {}
     }
 
 

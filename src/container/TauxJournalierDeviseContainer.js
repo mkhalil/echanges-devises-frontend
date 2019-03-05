@@ -1,32 +1,36 @@
 import React from "react";
-import TauxJournalierDeviseFormComponent from "../component/TauxJournalierDeviseFormComponent";
-import TauxJournalierDeviseTableComponent from "../component/TauxJournalierDeviseTableComponent";
-import Api from "../utiles/Api";
-
-class TauxJournalierDeviseContainer extends React.Component{
+import {connect} from 'react-redux';
+import * as actionTaux from '../actions/TauxJournalierDeviseAction';
 
 
-    state = {tauxJournalierDeviseListe: []};
+class TauxJournalierDeviseContainer extends React.Component {
+
+
+    constructor(props) {
+        super(props);
+        console.log("PROPS MAP", props.tauxJournalierDevise);
+    }
+
 
     componentDidMount() {
-        this.refreshTable();
+        this.props.dispatch(actionTaux.listTauxJournalierDevise());
     }
 
-    refreshTable = () => {
-        Api.get("/taux-echanges-devises").then(result => {
-                this.setState({tauxJournalierDeviseListe: result.data});
-            }
-        );
-    }
 
     render() {
+        console.log("PROPS MAP", this.props.tauxJournalierDevise);
+
         return (
-          <div>
-              <TauxJournalierDeviseFormComponent refreshTable={this.refreshTable} />
-              <TauxJournalierDeviseTableComponent tauxJournalierDeviseListe={this.state.tauxJournalierDeviseListe}/>
-          </div>
+            <div>
+            </div>
         );
     }
 }
 
-export default TauxJournalierDeviseContainer;
+const mapStateToProps = (state) => {
+    return {
+        tauxJournalierDevise: state
+    }
+}
+
+export default connect(mapStateToProps)(TauxJournalierDeviseContainer);

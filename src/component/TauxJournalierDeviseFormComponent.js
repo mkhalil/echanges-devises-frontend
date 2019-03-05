@@ -3,10 +3,10 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Input from "./Input";
-import Api from "../utiles/Api";
 import validator from "validator";
 import SelectBox from "./SelectBox";
-import {NotificationManager} from "react-notifications";
+import * as actionTaux from '../actions/TauxJournalierDeviseAction';
+import {connect} from "react-redux";
 
 class TauxJournalierDeviseFormComponent extends React.Component {
 
@@ -25,16 +25,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                 montantVente: montantVente,
                 deviseId: deviseId
             }
-
-
-            Api.post("/taux-echanges-devises", tauxJournalierDevise).then(v => {
-                NotificationManager.success('Enregistrement avec succès', 'Taux journalière');
-                this.refreshTable();
-            }).catch(error => {
-                console.log("error", error.response.data);
-                NotificationManager.error(error.response.data.message, 'Error d\'enregistrement', 5000);
-            });
-
+            actionTaux.addTauxJournalierDevise(tauxJournalierDevise);
         }
 
     }
@@ -101,6 +92,10 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
     ]
 
+    onClickOK = () => {
+
+        this.props.dispatch({type:"OK CLICKED"});
+    }
 
     render() {
 
@@ -147,6 +142,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                         </div>
                     </div>
                 </form>
+                <button onClick={this.onClickOK}>OK</button>
             </React.Fragment>
 
         );
@@ -155,4 +151,4 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
 }
 
-export default TauxJournalierDeviseFormComponent;
+export default connect()(TauxJournalierDeviseFormComponent);

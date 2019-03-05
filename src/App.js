@@ -5,7 +5,6 @@ import HeaderContainer from "./container/HeaderContainer";
 import './CustomStyle.css';
 import {NotificationContainer} from "react-notifications";
 import 'react-notifications/lib/notifications.css';
-
 class App extends Component {
     render() {
         return (

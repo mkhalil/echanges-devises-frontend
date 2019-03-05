@@ -1,12 +1,15 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
-import {Button, ButtonToolbar} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 const TauxJournalierDeviseTableComponent = (props) => {
 
 
-    const tauxJournalierDeviseListe = props.tauxJournalierDeviseListe;
-
+    let tauxJournalierDeviseListe = props.tauxJournalierDeviseListe;
+    console.log("tauxJournalierDeviseListe AASSSSS", tauxJournalierDeviseListe);
+    if (tauxJournalierDeviseListe===undefined) {
+        tauxJournalierDeviseListe = [];
+    }
     let tableBody = tauxJournalierDeviseListe.map(ligne => {
         return (<LineTable key={ligne.id} tauxJournalierDevise={ligne}/>);
     });
