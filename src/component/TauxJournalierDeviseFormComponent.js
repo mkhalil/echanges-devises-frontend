@@ -11,26 +11,6 @@ import {connect} from "react-redux";
 class TauxJournalierDeviseFormComponent extends React.Component {
 
 
-    submitForm = (event) => {
-        event.preventDefault();
-        let validateFields = this.state.validateFields;
-        let validateForm = Object.values(validateFields).findIndex(v => v === false) === -1;
-        console.log("validateForm", validateForm);
-
-        if (validateForm) {
-            const {dateTaux, montantAchat, montantVente, deviseId} = this.state;
-            let tauxJournalierDevise = {
-                dateTaux: dateTaux,
-                montantAchat: montantAchat,
-                montantVente: montantVente,
-                deviseId: deviseId
-            }
-            this.props.dispatch(actionTaux.addTauxJournalierDevise(tauxJournalierDevise));
-        }
-
-    }
-
-
     state = {
         dateTaux: new Date(),
         montantAchat: '',
@@ -46,6 +26,25 @@ class TauxJournalierDeviseFormComponent extends React.Component {
             message: null
         }
     };
+
+    submitForm = (event) => {
+        event.preventDefault();
+        let validateFields = this.state.validateFields;
+        let validateForm = Object.values(validateFields).findIndex(v => v === false) === -1;
+        if (validateForm) {
+            const {dateTaux, montantAchat, montantVente, deviseId} = this.state;
+            let tauxJournalierDevise = {
+                dateTaux: dateTaux,
+                montantAchat: montantAchat,
+                montantVente: montantVente,
+                deviseId: deviseId
+            }
+            this.props.dispatch(actionTaux.addTauxJournalierDevise(tauxJournalierDevise));
+        }
+
+    }
+
+
 
     positive = (v) => {
         let floatV = validator.toFloat(v);
@@ -91,10 +90,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
     ]
 
-    onClickOK = () => {
-
-        this.props.dispatch({type:"OK CLICKED"});
-    }
 
     render() {
 

@@ -4,6 +4,7 @@ import Api from "../utiles/Api";
 export const LIST_TAUX_JOURNALIER_DEVISE = 'LIST_TAUX_JOURNALIER_DEVISE';
 export const ADD_TAUX_JOURNALIER_DEVISE = 'ADD_TAUX_JOURNALIER_DEVISE';
 export const DELETE_TAUX_JOURNALIER_DEVISE = 'DELETE_TAUX_JOURNALIER_DEVISE';
+export const SELECTE_TAUX_JOURNALIER_DEVISE = 'SELECTE_TAUX_JOURNALIER_DEVISE';
 
 export const addTauxJournalierDevise = (tauxJournalierDevise) => {
 
@@ -17,23 +18,30 @@ export const addTauxJournalierDevise = (tauxJournalierDevise) => {
         });
 
     }
-
 }
 
-export const listTauxJournalierDevise = () => {
-    console.log("listTauxJournalierDevise listTauxJournalierDevise");
+export const deleteTauxJournalierDevise = (id) => {
+    return dispatch => {
+        Api.delete("/taux-echanges-devises/" + id).then(result => {
+            dispatch({type:'HIDE_MODAL'});
+            dispatch(listTauxJournalierDevise());
+        }).catch(error => {
+            console.log("Error", error);
+        });
+    }
+}
 
+
+export const listTauxJournalierDevise = () => {
     return dispatch => {
 
         Api.get("/taux-echanges-devises").then(result => {
-                console.log("result", result.data);
                 dispatch({type: LIST_TAUX_JOURNALIER_DEVISE, payload: result.data});
             }
         ).catch(
-
             error => {
-                console.log(error)
-                NotificationManager.error("Erreur d'enregistrement : " + error.result.data, "Taux journalier de devise");
+                console.error(error);
+                NotificationManager.error("Erreur d'enregistrement : ", "Taux journalier de devise");
 
             }
         );

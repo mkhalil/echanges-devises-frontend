@@ -1,56 +1,82 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
 import {Button} from "react-bootstrap";
+import {connect} from "react-redux";
+import * as actionTaux from '../actions/TauxJournalierDeviseAction';
 
-const TauxJournalierDeviseTableComponent = (props) => {
+class TauxJournalierDeviseTableComponent extends React.Component {
 
 
-    let listTauxJournalierDevise = props.listTauxJournalierDevise;
-    if (listTauxJournalierDevise===undefined) {
-        listTauxJournalierDevise = [];
+    constructor(props) {
+        super(props);
     }
-    let tableBody = listTauxJournalierDevise.map(ligne => {
-        return (<LineTable key={ligne.id} tauxJournalierDevise={ligne}/>);
-    });
 
-    return (
-        <Table responsive>
-            <HeaderTable/>
-            <tbody>
-            {tableBody}
-            </tbody>
-        </Table>
-    );
+    onDeleteHandler = (id) => {
+        this.props.dispatch({type: actionTaux.SELECTE_TAUX_JOURNALIER_DEVISE, payload: id});
+        this.props.dispatch({type: 'SHOW_MODAL'});
+    }
+
+
+    onSelectLineHandler = (id) => {
+        this.props.dispatch({type: actionTaux.SELECTE_TAUX_JOURNALIER_DEVISE, payload: id});
+    }
+
+
+
+    render() {
+
+        let listTauxJournalierDevise = this.props.listTauxJournalierDevise;
+
+        let tableBody = listTauxJournalierDevise.map(ligne => {
+            let className = ligne.id === this.props.selectedTauxId ? 'table-primary' : '';
+            return (
+
+
+                <tr key={ligne.id} onClick={() => this.onSelectLineHandler(ligne.id)} className={className}>
+                    <td>{ligne.devise.abreviation}</td>
+                    <td>{ligne.date}</td>
+                    <td>{ligne.montantAchat}</td>
+                    <td>{ligne.montantVente}</td>
+                    <td>
+                        <Button variant="secondary" className="mr-2">Editer</Button>
+                        <Button variant="danger" onClick={() => this.onDeleteHandler(ligne.id)}>Supprimer</Button>
+                    </td>
+                </tr>)
+
+
+        });
+        return (
+            <Table responsive className="table-hover">
+                <thead>
+                <tr>
+                    <th>Devise</th>
+                    <th>Date</th>
+                    <th>Montant d'achat</th>
+                    <th>Montant du vente</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody onBlur={() => this.onSelectLineHandler('')}>
+                {tableBody}
+                </tbody>
+            </Table>
+        );
+    }
+
+
+    componentDidMount() {
+        this.props.dispatch(actionTaux.listTauxJournalierDevise());
+    }
+
+
 }
 
-const LineTable = (props) => {
-    const {tauxJournalierDevise} = props;
-    return (
-        <tr>
-            <td>{tauxJournalierDevise.devise.abreviation}</td>
-            <td>{tauxJournalierDevise.date}</td>
-            <td>{tauxJournalierDevise.montantAchat}</td>
-            <td>{tauxJournalierDevise.montantVente}</td>
-            <td>
-                <Button variant="secondary" className="mr-2">Editer</Button>
-                <Button variant="danger">Supprimer</Button>
-            </td>
-        </tr>
-    )
+const mapStateToProps = (state) => {
+    return {
+        listTauxJournalierDevise: state.listTauxJournalierDevise,
+        selectedTauxId:state.selectedTauxId
+    }
 }
 
-const HeaderTable = (props) => {
-    return (
-        <thead>
-        <tr>
-            <th>Devise</th>
-            <th>Date</th>
-            <th>Montant d'achat</th>
-            <th>Montant du vente</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-    );
-}
 
-export default TauxJournalierDeviseTableComponent;
+export default connect(mapStateToProps)(TauxJournalierDeviseTableComponent);
