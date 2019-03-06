@@ -7,7 +7,7 @@ export const addTauxJournalierDevise = (tauxJournalierDevise) => {
 
         console.log("AUUUUUUUUUUUUH MPPPPP");
         Api.post("/taux-echanges-devises", tauxJournalierDevise).then(v => {
-            dispatch(listTauxJournalierDevise);
+            dispatch(listTauxJournalierDevise());
             NotificationManager.success("jjjj", "AAAA");
         }).catch(error => {
         });
