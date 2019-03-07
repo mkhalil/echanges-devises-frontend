@@ -33,20 +33,20 @@ class TauxJournalierDeviseTableComponent extends React.Component {
 
         let listTauxJournalierDevise = this.props.listTauxJournalierDevise;
 
-        let tableBody = listTauxJournalierDevise.map(ligne => {
-            let className = ligne.id === this.props.selectedTauxId ? 'table-primary' : '';
+        let tableBody = listTauxJournalierDevise.map(tauxJournalier => {
+            let className = tauxJournalier.id === this.props.selectedTauxId ? 'table-primary' : '';
             return (
 
 
-                <tr key={ligne.id} className={className}>
-                    <td>{ligne.devise.abreviation}</td>
-                    <td>{ligne.date}</td>
-                    <td>{ligne.montantAchat}</td>
-                    <td>{ligne.montantVente}</td>
+                <tr key={tauxJournalier.id} className={className}>
+                    <td>{tauxJournalier.devise.abreviation}</td>
+                    <td>{tauxJournalier.date}</td>
+                    <td>{tauxJournalier.montantAchat}</td>
+                    <td>{tauxJournalier.montantVente}</td>
                     <td>
                         <Button variant="secondary" className="mr-2">Editer</Button>
                         <Button variant="danger"
-                                onClick={() => this.onConfirmeDeleteHandler(ligne.id)}>Supprimer</Button>
+                                onClick={() => this.onConfirmeDeleteHandler(tauxJournalier.id)}>Supprimer</Button>
                     </td>
                 </tr>)
 
