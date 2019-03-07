@@ -1,6 +1,5 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import Input from "./Input";
 import validator from "validator";
@@ -39,11 +38,10 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                 montantVente: montantVente,
                 deviseId: deviseId
             }
-            this.props.dispatch(actionTaux.addTauxJournalierDevise(tauxJournalierDevise));
+            this.props.saveTauxJournalierDevise(tauxJournalierDevise);
         }
 
     }
-
 
 
     positive = (v) => {
@@ -144,4 +142,10 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
 }
 
-export default connect()(TauxJournalierDeviseFormComponent);
+const mapDispatchToProps = dispatch => {
+    return {
+        saveTauxJournalierDevise: (tauxJournalierDevise) => dispatch(actionTaux.addTauxJournalierDevise(tauxJournalierDevise))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(TauxJournalierDeviseFormComponent);

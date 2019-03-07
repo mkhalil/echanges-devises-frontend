@@ -2,8 +2,6 @@ import {NotificationManager} from "react-notifications";
 import Api from "../utiles/Api";
 
 export const LIST_TAUX_JOURNALIER_DEVISE = 'LIST_TAUX_JOURNALIER_DEVISE';
-export const ADD_TAUX_JOURNALIER_DEVISE = 'ADD_TAUX_JOURNALIER_DEVISE';
-export const DELETE_TAUX_JOURNALIER_DEVISE = 'DELETE_TAUX_JOURNALIER_DEVISE';
 export const SELECTE_TAUX_JOURNALIER_DEVISE = 'SELECTE_TAUX_JOURNALIER_DEVISE';
 
 export const addTauxJournalierDevise = (tauxJournalierDevise) => {
@@ -23,7 +21,6 @@ export const addTauxJournalierDevise = (tauxJournalierDevise) => {
 export const deleteTauxJournalierDevise = (id) => {
     return dispatch => {
         Api.delete("/taux-echanges-devises/" + id).then(result => {
-            dispatch({type:'HIDE_MODAL'});
             dispatch(listTauxJournalierDevise());
         }).catch(error => {
             console.log("Error", error);

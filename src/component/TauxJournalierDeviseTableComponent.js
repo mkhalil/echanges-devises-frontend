@@ -3,6 +3,8 @@ import Table from 'react-bootstrap/Table';
 import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import * as actionTaux from '../actions/TauxJournalierDeviseAction';
+import 'react-confirm-alert/src/react-confirm-alert.css'
+import {confirmAlert} from "react-confirm-alert"; // Import css
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
@@ -11,14 +13,21 @@ class TauxJournalierDeviseTableComponent extends React.Component {
         super(props);
     }
 
-    onDeleteHandler = (id) => {
-        this.props.dispatch({type: actionTaux.SELECTE_TAUX_JOURNALIER_DEVISE, payload: id});
-        this.props.dispatch({type: 'SHOW_MODAL'});
-    }
+    onConfirmeDeleteHandler = (id) => {
+        confirmAlert({
+            title: 'Suppression',
+            message: 'Voulez vraiment supprimer ce taux ?',
+            buttons: [
+                {
+                    label: 'Oui',
+                    onClick: () =>  this.props.deleteTauxJournalierDevise(id)
+                },
+                {
+                    label: 'Non'
+                }
+            ]
+        });
 
-
-    onSelectLineHandler = (id) => {
-        this.props.dispatch({type: actionTaux.SELECTE_TAUX_JOURNALIER_DEVISE, payload: id});
     }
 
 
@@ -32,14 +41,14 @@ class TauxJournalierDeviseTableComponent extends React.Component {
             return (
 
 
-                <tr key={ligne.id} onClick={() => this.onSelectLineHandler(ligne.id)} className={className}>
+                <tr key={ligne.id} className={className}>
                     <td>{ligne.devise.abreviation}</td>
                     <td>{ligne.date}</td>
                     <td>{ligne.montantAchat}</td>
                     <td>{ligne.montantVente}</td>
                     <td>
                         <Button variant="secondary" className="mr-2">Editer</Button>
-                        <Button variant="danger" onClick={() => this.onDeleteHandler(ligne.id)}>Supprimer</Button>
+                        <Button variant="danger" onClick={() => this.onConfirmeDeleteHandler(ligne.id)}>Supprimer</Button>
                     </td>
                 </tr>)
 
@@ -56,7 +65,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody onBlur={() => this.onSelectLineHandler('')}>
+                <tbody>
                 {tableBody}
                 </tbody>
             </Table>
@@ -65,7 +74,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
 
 
     componentDidMount() {
-        this.props.dispatch(actionTaux.listTauxJournalierDevise());
+        this.props.fetchListTauxJournalierDevise();
     }
 
 
@@ -79,4 +88,11 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(TauxJournalierDeviseTableComponent);
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise()),
+        deleteTauxJournalierDevise : (id) => dispatch(actionTaux.deleteTauxJournalierDevise(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TauxJournalierDeviseTableComponent);

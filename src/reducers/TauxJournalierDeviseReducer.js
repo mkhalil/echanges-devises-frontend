@@ -12,13 +12,6 @@ const tauxJournalierDeviseReducer = (state = initState, action) => {
     }
 
 
-
-    if (action.type === 'SHOW_MODAL') {
-        return {...state, showConfirmModel:true};
-    }
-    if (action.type === 'HIDE_MODAL') {
-        return {...state, showConfirmModel:false};
-    }
     if (action.type === tauxJournalierDeviseAction.SELECTE_TAUX_JOURNALIER_DEVISE) {
         return {...state, selectedTauxId:action.payload};
     }
