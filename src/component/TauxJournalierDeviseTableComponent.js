@@ -3,8 +3,7 @@ import Table from 'react-bootstrap/Table';
 import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import * as actionTaux from '../actions/TauxJournalierDeviseAction';
-import 'react-confirm-alert/src/react-confirm-alert.css'
-import {confirmAlert} from "react-confirm-alert"; // Import css
+import alertPopup from '../utiles/alertPopup';
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
@@ -14,22 +13,20 @@ class TauxJournalierDeviseTableComponent extends React.Component {
     }
 
     onConfirmeDeleteHandler = (id) => {
-        confirmAlert({
-            title: 'Suppression',
-            message: 'Voulez vraiment supprimer ce taux ?',
-            buttons: [
-                {
-                    label: 'Oui',
-                    onClick: () =>  this.props.deleteTauxJournalierDevise(id)
-                },
-                {
-                    label: 'Non'
-                }
-            ]
+        alertPopup.fire({
+            title: 'Suppression de taux',
+            text: "Voulez-vous supprimer ce taux ?",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui'
+        }).then((result) => {
+            if (result.value) {
+                this.props.deleteTauxJournalierDevise(id);
+            }
         });
 
     }
-
 
 
     render() {
@@ -48,27 +45,31 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     <td>{ligne.montantVente}</td>
                     <td>
                         <Button variant="secondary" className="mr-2">Editer</Button>
-                        <Button variant="danger" onClick={() => this.onConfirmeDeleteHandler(ligne.id)}>Supprimer</Button>
+                        <Button variant="danger"
+                                onClick={() => this.onConfirmeDeleteHandler(ligne.id)}>Supprimer</Button>
                     </td>
                 </tr>)
 
 
         });
         return (
-            <Table responsive className="table-hover">
-                <thead>
-                <tr>
-                    <th>Devise</th>
-                    <th>Date</th>
-                    <th>Montant d'achat</th>
-                    <th>Montant du vente</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {tableBody}
-                </tbody>
-            </Table>
+            <React.Fragment>
+                <Table responsive className="table-hover">
+                    <thead>
+                    <tr>
+                        <th>Devise</th>
+                        <th>Date</th>
+                        <th>Montant d'achat</th>
+                        <th>Montant du vente</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {tableBody}
+                    </tbody>
+                </Table>
+
+            </React.Fragment>
         );
     }
 
@@ -83,7 +84,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
 const mapStateToProps = (state) => {
     return {
         listTauxJournalierDevise: state.listTauxJournalierDevise,
-        selectedTauxId:state.selectedTauxId
+        selectedTauxId: state.selectedTauxId
     }
 }
 
@@ -91,7 +92,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise()),
-        deleteTauxJournalierDevise : (id) => dispatch(actionTaux.deleteTauxJournalierDevise(id))
+        deleteTauxJournalierDevise: (id) => dispatch(actionTaux.deleteTauxJournalierDevise(id))
     }
 }
 
