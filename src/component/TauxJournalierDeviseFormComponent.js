@@ -19,10 +19,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
             montantAchat: null,
             montantVente: null,
             deviseId: null
-        },
-        alertFeedBack: {
-            type: null,
-            message: null
         }
     };
 
