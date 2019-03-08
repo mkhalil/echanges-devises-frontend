@@ -1,15 +1,16 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
-import {Button} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import * as actionTaux from '../actions/TauxJournalierDeviseAction';
-import alertPopup from '../utiles/alertPopup';
+import alertPopup from '../utiles/AlertPopup';
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
 
     constructor(props) {
         super(props);
+        this.state = {showEditModal : false}
     }
 
     onConfirmeDeleteHandler = (id) => {
@@ -25,9 +26,17 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                 this.props.deleteTauxJournalierDevise(id);
             }
         });
-
     }
 
+
+
+    handleCloseEditModal() {
+        this.setState({ showEditModal: false });
+    }
+
+    handleShowEditModal() {
+        this.setState({ showEditModal: true });
+    }
 
     render() {
 
@@ -44,7 +53,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     <td>{tauxJournalier.montantAchat}</td>
                     <td>{tauxJournalier.montantVente}</td>
                     <td>
-                        <Button variant="secondary" className="mr-2">Editer</Button>
+                        <Button variant="secondary" className="mr-2" onClick={ () => this.handleShowEditModal()}>Editer</Button>
                         <Button variant="danger"
                                 onClick={() => this.onConfirmeDeleteHandler(tauxJournalier.id)}>Supprimer</Button>
                     </td>
@@ -68,7 +77,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     {tableBody}
                     </tbody>
                 </Table>
-
+                <EeditModal showEditModal={this.state.showEditModal} handleClose = {() => this.handleCloseEditModal()} />
             </React.Fragment>
         );
     }
@@ -88,6 +97,25 @@ const mapStateToProps = (state) => {
     }
 }
 
+const EeditModal = (props) => {
+    return (
+
+        <Modal show={props.showEditModal} onHide={props.handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Editer</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Editer taux</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={props.handleClose}>
+                    Annuler
+                </Button>
+                <Button variant="primary" onClick={props.handleClose}>
+                    Enregistrer
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
 
 const mapDispatchToProps = dispatch => {
     return {
