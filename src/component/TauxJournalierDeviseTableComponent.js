@@ -4,13 +4,15 @@ import {Button, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import * as actionTaux from '../actions/TauxJournalierDeviseAction';
 import alertPopup from '../utiles/AlertPopup';
+import DatePicker from "react-datepicker";
+import Input from "./Input";
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {showEditModal : false}
+        this.state = {showEditModal: false}
     }
 
     onConfirmeDeleteHandler = (id) => {
@@ -29,13 +31,12 @@ class TauxJournalierDeviseTableComponent extends React.Component {
     }
 
 
-
     handleCloseEditModal() {
-        this.setState({ showEditModal: false });
+        this.setState({showEditModal: false});
     }
 
     handleShowEditModal() {
-        this.setState({ showEditModal: true });
+        this.setState({showEditModal: true});
     }
 
     render() {
@@ -53,7 +54,8 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     <td>{tauxJournalier.montantAchat}</td>
                     <td>{tauxJournalier.montantVente}</td>
                     <td>
-                        <Button variant="secondary" className="mr-2" onClick={ () => this.handleShowEditModal()}>Editer</Button>
+                        <Button variant="secondary" className="mr-2"
+                                onClick={() => this.handleShowEditModal()}>Editer</Button>
                         <Button variant="danger"
                                 onClick={() => this.onConfirmeDeleteHandler(tauxJournalier.id)}>Supprimer</Button>
                     </td>
@@ -77,7 +79,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     {tableBody}
                     </tbody>
                 </Table>
-                <EeditModal showEditModal={this.state.showEditModal} handleClose = {() => this.handleCloseEditModal()} />
+                <EeditModal showEditModal={this.state.showEditModal} handleClose={() => this.handleCloseEditModal()}/>
             </React.Fragment>
         );
     }
@@ -104,7 +106,27 @@ const EeditModal = (props) => {
             <Modal.Header closeButton>
                 <Modal.Title>Editer</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Editer taux</Modal.Body>
+            <Modal.Body>
+                <form>
+                    <div className="form-group row">
+                        <label htmlFor="dateTaux" class="col-sm-6 col-form-label">Date d'échange</label>
+                        <div className="col-sm-6">
+                            <DatePicker selected={props.dateTaux} dateFormat="dd/MM/YYYY" className="form-control"
+                                        id="dateTaux"/>
+                        </div>
+                    </div>
+
+                    <div className="form-group row">
+                        <label htmlFor="montantAchat" class="col-sm-6 col-form-label">Montant d'achat</label>
+                        <div className="col-sm-6">
+                            <Input name="montantAchat" type="number" placeholder="Montant d'achat"
+                                   value={props.montantAchat}
+                                   required={true}
+                                   validateMessage="Montant d'achat doit être > 0"/>
+                        </div>
+                    </div>
+                </form>
+            </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.handleClose}>
                     Annuler
