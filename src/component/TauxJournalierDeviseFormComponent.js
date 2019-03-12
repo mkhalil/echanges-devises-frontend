@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import InputNumber from "./InputNumber";
 import InputSelectBox from "./InputSelectBox";
 import {Formik} from "formik";
+import {NotificationManager} from "react-notifications";
+import Api from "../utiles/Api";
 
 class TauxJournalierDeviseFormComponent extends React.Component {
 
@@ -32,10 +34,17 @@ class TauxJournalierDeviseFormComponent extends React.Component {
             <Formik
                 initialValues={{dateTaux: new Date(), deviseId: '', montantAchat: '', montantVente: ''}}
                 onSubmit={(values, {setSubmitting}) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
+
+                    Api.post("/taux-echanges-devises", values).then(v => {
+                        NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
-                    }, 500);
+                        this.props.fetchListTauxJournalierDevise();
+                    }).catch(error => {
+                        NotificationManager.error("Erreur d'enregistrement : " + error.result.data, "Taux journalier de devise");
+                        setSubmitting(false);
+                    });
+
+
                 }}
                 validationSchema={Yup.object().shape({
                     dateTaux: Yup.date().required('Date obligatoire'),
@@ -55,6 +64,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                         handleBlur,
                         handleSubmit,
                         handleReset,
+                        setFieldValue
                     } = props;
                     return (
                         <form onSubmit={handleSubmit}>
@@ -66,7 +76,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                                 className="form-control"
                                                 id="dateTaux"
 
-                                                onChange={d => {values.dateTaux = d;}}/>
+                                                onChange={d => {setFieldValue('dateTaux', d);}}/>
                                 </div>
                                 <div className="form-group col-md-2">
                                     <label htmlFor="deviseId">Devise</label>
@@ -122,7 +132,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveTauxJournalierDevise: (tauxJournalierDevise) => dispatch(actionTaux.addTauxJournalierDevise(tauxJournalierDevise))
+        fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise())
     }
 }
 
