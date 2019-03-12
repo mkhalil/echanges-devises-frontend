@@ -115,6 +115,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                     <button type="submit" id="enregistrer" className="btn btn-primary marginTop32px"
                                             disabled={isSubmitting}>Enregistrer
                                     </button>
+                                    <button type="button" className="btn btn-secondary marginTop32px ml-1" onClick={handleReset}> Annuler </button>
                                 </div>
                             </div>
 

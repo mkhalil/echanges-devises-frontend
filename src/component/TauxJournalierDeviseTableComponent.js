@@ -56,7 +56,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     <td>{tauxJournalier.montantAchat}</td>
                     <td>{tauxJournalier.montantVente}</td>
                     <td>
-                        <Button variant="secondary" className="mr-2"
+                        <Button variant="warning" className="mr-2"
                                 onClick={() => this.handleShowEditModal(tauxJournalier)}>Editer</Button>
                         <Button variant="danger"
                                 onClick={() => this.onConfirmeDeleteHandler(tauxJournalier.id)}>Supprimer</Button>
@@ -81,7 +81,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     {tableBody}
                     </tbody>
                 </Table>
-                <EditTauxJournalierDeviseModalComponent model={this.selectedTaux}
+                <EditTauxJournalierDeviseModalComponent selectedTaux={this.selectedTaux}
                                                         showEditModal={this.state.showEditModal}
                                                         handleClose={() => this.handleCloseEditModal()}/>
             </React.Fragment>
