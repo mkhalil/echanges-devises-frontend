@@ -1,12 +1,10 @@
 import React from "react";
 import Table from 'react-bootstrap/Table';
-import {Button, Modal} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import * as actionTaux from '../actions/TauxJournalierDeviseAction';
 import alertPopup from '../utiles/AlertPopup';
-import DatePicker from "react-datepicker";
-import Input from "./Input";
-import TauxJournalierDeviseFormComponent from "./TauxJournalierDeviseFormComponent";
+import EditTauxJournalierDeviseModalComponent from "./EditTauxJournalierDeviseModalComponent";
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
@@ -83,7 +81,9 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     {tableBody}
                     </tbody>
                 </Table>
-                <EeditModal model={this.selectedTaux} showEditModal={this.state.showEditModal} handleClose={() => this.handleCloseEditModal()}/>
+                <EditTauxJournalierDeviseModalComponent model={this.selectedTaux}
+                                                        showEditModal={this.state.showEditModal}
+                                                        handleClose={() => this.handleCloseEditModal()}/>
             </React.Fragment>
         );
     }
@@ -103,31 +103,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const EeditModal = (props) => {
-    console.log("Modal", props.model);
-
-    const tauxJournalierDevise = props.model;
-
-    return (
-
-        <Modal show={props.showEditModal} onHide={props.handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Editer</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-               <TauxJournalierDeviseFormComponent/>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={props.handleClose}>
-                    Annuler
-                </Button>
-                <Button variant="primary" onClick={props.handleClose}>
-                    Enregistrer
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
-}
 
 const mapDispatchToProps = dispatch => {
     return {
