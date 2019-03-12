@@ -10,12 +10,8 @@ import InputNumber from "./InputNumber";
 
 const editTauxJournalierDeviseModalComponent = (props) => {
 
-    const devises = [
-        {text: 'Devise', value: ''},
-        {text: 'Euro', value: 1},
-        {text: 'Dollar', value: 2},
 
-    ];
+
 
     const {selectedTaux, showEditModal, handleClose} = props;
 

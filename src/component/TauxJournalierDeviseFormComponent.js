@@ -15,15 +15,29 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            'devisesListe': []
+        }
     }
 
-    devises = [
-        {text: 'Devise', value: ''},
-        {text: 'Euro', value: 1},
-        {text: 'Dollar', value: 2},
 
-    ]
-
+    componentDidMount() {
+        Api.get("/devises").then(result => {
+                console.log("Devises = ", result.data);
+                let options = result.data.map(x => {
+                    return {value: x.id, text: x.abreviation};
+                });
+                console.log('options = ', options);
+                this.setState({
+                    'devisesListe': [{value: '', text: 'Devise'}, ...options]
+                });
+            }
+        ).catch(
+            error => {
+                console.error("Erreur d'appel WS devises", error);
+            }
+        );
+    }
 
 
     render() {
@@ -76,7 +90,9 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                                 className="form-control"
                                                 id="dateTaux"
 
-                                                onChange={d => {setFieldValue('dateTaux', d);}}/>
+                                                onChange={d => {
+                                                    setFieldValue('dateTaux', d);
+                                                }}/>
                                 </div>
                                 <div className="form-group col-md-2">
                                     <label htmlFor="deviseId">Devise</label>
@@ -87,7 +103,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                         value={values.deviseId}
                                         error={errors.deviseId}
                                         touched={touched.deviseId}
-                                        options={this.devises}
+                                        options={this.state.devisesListe}
                                     />
                                 </div>
                                 <div className="form-group col-md-2">
@@ -115,7 +131,9 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                     <button type="submit" id="enregistrer" className="btn btn-primary marginTop32px"
                                             disabled={isSubmitting}>Enregistrer
                                     </button>
-                                    <button type="button" className="btn btn-secondary marginTop32px ml-1" onClick={handleReset}> Annuler </button>
+                                    <button type="button" className="btn btn-secondary marginTop32px ml-1"
+                                            onClick={handleReset}> Annuler
+                                    </button>
                                 </div>
                             </div>
 
