@@ -5,20 +5,17 @@ import {NotificationManager} from "react-notifications";
 import * as Yup from "yup";
 import {Formik} from "formik";
 import DatePicker from "react-datepicker";
-import InputSelectBox from "./InputSelectBox";
 import InputNumber from "./InputNumber";
+import InputSelectBoxDevises from "./InputSelectBoxDevises";
 
 const editTauxJournalierDeviseModalComponent = (props) => {
 
 
-
-
-    const {selectedTaux, showEditModal, handleClose} = props;
+    const {selectedTaux, showEditModal, handleClose, devises} = props;
 
     console.log("selectedTaux = ", selectedTaux);
 
     return (
-
 
 
         <Modal show={showEditModal} onHide={handleClose}>
@@ -69,7 +66,7 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="dateTaux">Date d'échange</label>
-                                        <DatePicker selected={new Date(values.date)}
+                                        <DatePicker selected={new Date(values.dateTaux)}
                                                     dateFormat="dd/MM/YYYY"
                                                     className="form-control"
                                                     id="dateTaux"
@@ -79,14 +76,12 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                                     </div>
                                     <div className="form-group col-md-6">
                                         <label htmlFor="deviseId">Devise</label>
-                                        <InputSelectBox
-                                            name="deviseId"
+                                        <InputSelectBoxDevises
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.deviseId}
                                             error={errors.deviseId}
                                             touched={touched.deviseId}
-                                            options={devises}
                                         />
                                     </div>
                                 </div>
@@ -116,10 +111,10 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                                 </div>
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="primary" >
+                                <Button variant="primary">
                                     Enregistrer
                                 </Button>
-                                <Button variant="secondary" onClick={handleReset}>
+                                <Button variant="secondary" onClick={handleClose}>
                                     Annuler
                                 </Button>
                             </Modal.Footer>

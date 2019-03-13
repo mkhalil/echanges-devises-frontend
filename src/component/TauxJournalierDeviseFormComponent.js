@@ -5,39 +5,19 @@ import * as actionTaux from '../actions/TauxJournalierDeviseAction';
 import {connect} from "react-redux";
 import * as Yup from "yup";
 import InputNumber from "./InputNumber";
-import InputSelectBox from "./InputSelectBox";
 import {Formik} from "formik";
 import {NotificationManager} from "react-notifications";
 import Api from "../utiles/Api";
+import InputSelectBoxDevises from "./InputSelectBoxDevises";
+import DisplayFormikState from "./DisplayFormikState";
 
 class TauxJournalierDeviseFormComponent extends React.Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {
-            'devisesListe': []
-        }
     }
 
-
-    componentDidMount() {
-        Api.get("/devises").then(result => {
-                console.log("Devises = ", result.data);
-                let options = result.data.map(x => {
-                    return {value: x.id, text: x.abreviation};
-                });
-                console.log('options = ', options);
-                this.setState({
-                    'devisesListe': [{value: '', text: 'Devise'}, ...options]
-                });
-            }
-        ).catch(
-            error => {
-                console.error("Erreur d'appel WS devises", error);
-            }
-        );
-    }
 
 
     render() {
@@ -96,14 +76,12 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                 </div>
                                 <div className="form-group col-md-2">
                                     <label htmlFor="deviseId">Devise</label>
-                                    <InputSelectBox
-                                        name="deviseId"
+                                    <InputSelectBoxDevises
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.deviseId}
                                         error={errors.deviseId}
                                         touched={touched.deviseId}
-                                        options={this.state.devisesListe}
                                     />
                                 </div>
                                 <div className="form-group col-md-2">
@@ -137,6 +115,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                 </div>
                             </div>
 
+                            <DisplayFormikState {...props}/>
                         </form>
                     );
                 }}
@@ -148,6 +127,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
     }
 
 }
+
 
 const mapDispatchToProps = dispatch => {
     return {
