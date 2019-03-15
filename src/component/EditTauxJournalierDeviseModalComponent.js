@@ -7,6 +7,7 @@ import {Formik} from "formik";
 import DatePicker from "react-datepicker";
 import InputNumber from "./InputNumber";
 import InputSelectBoxDevises from "./InputSelectBoxDevises";
+import DisplayFormikState from "./DisplayFormikState";
 
 const editTauxJournalierDeviseModalComponent = (props) => {
 
@@ -27,7 +28,8 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                 initialValues={selectedTaux}
                 onSubmit={(values, {setSubmitting}) => {
 
-                    Api.post("/taux-echanges-devises", values).then(v => {
+                    Api.put("/taux-echanges-devises/" + selectedTaux.id, values).then(v => {
+                        debugger;
                         NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
                         this.props.fetchListTauxJournalierDevise();
@@ -39,7 +41,7 @@ const editTauxJournalierDeviseModalComponent = (props) => {
 
                 }}
                 validationSchema={Yup.object().shape({
-                    date: Yup.date().required('Date obligatoire'),
+                    dateTaux: Yup.date().required('Date obligatoire'),
                     deviseId: Yup.number().required('Devise est obligatoire'),
                     montantAchat: Yup.number().positive('Montant d\'achat doit être > 0').required('Montant est obligatoire'),
                     montantVente: Yup.number().positive('Montant du vente doit être > 0').required('Montant est obligatoire')
@@ -71,7 +73,7 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                                                     className="form-control"
                                                     id="dateTaux"
                                                     onChange={d => {
-                                                        setFieldValue('date', d);
+                                                        setFieldValue('dateTaux', d);
                                                     }}/>
                                     </div>
                                     <div className="form-group col-md-6">
@@ -111,13 +113,14 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                                 </div>
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="primary">
+                                <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
                                     Enregistrer
-                                </Button>
+                                </button>
                                 <Button variant="secondary" onClick={handleClose}>
                                     Annuler
                                 </Button>
                             </Modal.Footer>
+                            <DisplayFormikState {...props}/>
 
                         </form>
                     );

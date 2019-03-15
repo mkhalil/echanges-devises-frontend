@@ -29,6 +29,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                 initialValues={{dateTaux: new Date(), deviseId: '', montantAchat: '', montantVente: ''}}
                 onSubmit={(values, {setSubmitting}) => {
 
+                    console.log("values", values);
                     Api.post("/taux-echanges-devises", values).then(v => {
                         NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
@@ -114,8 +115,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                                     </button>
                                 </div>
                             </div>
-
-                            <DisplayFormikState {...props}/>
                         </form>
                     );
                 }}
