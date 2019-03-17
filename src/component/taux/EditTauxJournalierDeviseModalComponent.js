@@ -1,19 +1,19 @@
 import React from "react";
 import {Button, Modal} from "react-bootstrap";
-import Api from "../utiles/Api";
+import Api from "../../utiles/Api";
 import {NotificationManager} from "react-notifications";
 import * as Yup from "yup";
 import {Formik} from "formik";
 import DatePicker from "react-datepicker";
-import InputNumber from "./InputNumber";
-import InputSelectBoxDevises from "./InputSelectBoxDevises";
-import * as actionTaux from "../actions/TauxJournalierDeviseAction";
+import InputNumber from "../InputNumber";
+import InputSelectBoxDevises from "../InputSelectBoxDevises";
+import * as actionTaux from "../../actions/TauxJournalierDeviseAction";
 import connect from "react-redux/es/connect/connect";
 
 const editTauxJournalierDeviseModalComponent = (props) => {
 
 
-    const {selectedTaux, showEditModal, handleClose, devises} = props;
+    const {selectedTaux, showEditModal, handleClose} = props;
 
     let taux = selectedTaux;
     if (selectedTaux.devise !== undefined) {
@@ -58,12 +58,10 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                         values,
                         touched,
                         errors,
-                        dirty,
                         isSubmitting,
                         handleChange,
                         handleBlur,
                         handleSubmit,
-                        handleReset,
                         setFieldValue
                     } = props;
                     return (

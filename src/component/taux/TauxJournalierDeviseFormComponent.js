@@ -1,22 +1,16 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import * as actionTaux from '../actions/TauxJournalierDeviseAction';
+import * as actionTaux from '../../actions/TauxJournalierDeviseAction';
 import {connect} from "react-redux";
 import * as Yup from "yup";
-import InputNumber from "./InputNumber";
+import InputNumber from "../InputNumber";
 import {Formik} from "formik";
 import {NotificationManager} from "react-notifications";
-import Api from "../utiles/Api";
-import InputSelectBoxDevises from "./InputSelectBoxDevises";
+import Api from "../../utiles/Api";
+import InputSelectBoxDevises from "../InputSelectBoxDevises";
 
 class TauxJournalierDeviseFormComponent extends React.Component {
-
-
-    constructor(props) {
-        super(props);
-    }
-
 
     render() {
 
@@ -52,7 +46,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                         values,
                         touched,
                         errors,
-                        dirty,
                         isSubmitting,
                         handleChange,
                         handleBlur,

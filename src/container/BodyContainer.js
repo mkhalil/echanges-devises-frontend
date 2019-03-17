@@ -1,17 +1,20 @@
 import React from "react";
-import TauxJournalierDeviseContainer from "./TauxJournalierDeviseContainer";
+import TauxJournalierDeviseContainer from "../component/taux/container/TauxJournalierDeviseContainer";
+import {Route, Switch} from "react-router-dom";
+import HomeComponent from "../component/HomeComponent";
 
 class BodyContainer extends React.Component {
 
     render() {
 
         return (
-            <div className="container container-pading-top">
-                <div className="row">
-                    <div className="col-md-12">
-                      <TauxJournalierDeviseContainer/>
-                    </div>
-                </div>
+            <div className="container-fluid container-pading-top">
+
+                <Switch>
+                    <Route path='/taux-journalier-devises' component={TauxJournalierDeviseContainer}/>
+                    <Route path='/' component={HomeComponent}/>
+                </Switch>
+
             </div>
         );
     }

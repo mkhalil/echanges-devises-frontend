@@ -3,6 +3,7 @@ import Api from "../utiles/Api";
 
 export const LIST_TAUX_JOURNALIER_DEVISE = 'LIST_TAUX_JOURNALIER_DEVISE';
 export const SELECTE_TAUX_JOURNALIER_DEVISE = 'SELECTE_TAUX_JOURNALIER_DEVISE';
+export const LIST_CURRENT_TAUX = 'LIST_CURRENT_TAUX';
 
 export const addTauxJournalierDevise = (tauxJournalierDevise) => {
 
@@ -45,4 +46,14 @@ export const listTauxJournalierDevise = () => {
         );
     }
 
+}
+
+export const listCurrentTaux = () => {
+    return dispatch => {
+
+        Api.get("/taux-echanges-devises/current").then(result => {
+            console.log("result data", result.data);
+            dispatch({type : LIST_CURRENT_TAUX, payload: result.data});
+        });
+    }
 }

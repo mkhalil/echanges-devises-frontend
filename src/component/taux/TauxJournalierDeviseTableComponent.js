@@ -2,9 +2,10 @@ import React from "react";
 import Table from 'react-bootstrap/Table';
 import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
-import * as actionTaux from '../actions/TauxJournalierDeviseAction';
-import alertPopup from '../utiles/AlertPopup';
+import * as actionTaux from '../../actions/TauxJournalierDeviseAction';
+import alertPopup from '../../utiles/AlertPopup';
 import EditTauxJournalierDeviseModalComponent from "./EditTauxJournalierDeviseModalComponent";
+import moment from "moment";
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
@@ -42,8 +43,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
     }
 
     toddMMYYYY = (date) => {
-        const dateStr = date.split('-');
-        return dateStr[2]+'/'+dateStr[1]+'/'+dateStr[0];
+        return moment(date).format('DD/MM/YYYY');
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import BodyContainer from "./container/BodyContainer";
-import HeaderContainer from "./container/HeaderContainer";
+import HeaderContainer from "./component/HeaderComponent";
 import './CustomStyle.css';
 import {NotificationContainer} from "react-notifications";
 import 'react-notifications/lib/notifications.css';
