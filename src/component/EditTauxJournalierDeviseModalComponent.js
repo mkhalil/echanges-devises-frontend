@@ -7,14 +7,18 @@ import {Formik} from "formik";
 import DatePicker from "react-datepicker";
 import InputNumber from "./InputNumber";
 import InputSelectBoxDevises from "./InputSelectBoxDevises";
-import DisplayFormikState from "./DisplayFormikState";
+import * as actionTaux from "../actions/TauxJournalierDeviseAction";
+import connect from "react-redux/es/connect/connect";
 
 const editTauxJournalierDeviseModalComponent = (props) => {
 
 
     const {selectedTaux, showEditModal, handleClose, devises} = props;
 
-    console.log("selectedTaux = ", selectedTaux);
+    let taux = selectedTaux;
+    if (selectedTaux.devise !== undefined) {
+        taux.deviseId = selectedTaux.devise.id;
+    }
 
     return (
 
@@ -25,16 +29,18 @@ const editTauxJournalierDeviseModalComponent = (props) => {
             </Modal.Header>
 
             <Formik
-                initialValues={selectedTaux}
+                initialValues={taux}
                 onSubmit={(values, {setSubmitting}) => {
 
-                    Api.put("/taux-echanges-devises/" + selectedTaux.id, values).then(v => {
-                        debugger;
+                    Api.put("/taux-echanges-devises/" + taux.id, values).then(v => {
                         NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
-                        this.props.fetchListTauxJournalierDevise();
+                        props.fetchListTauxJournalierDevise();
+                        handleClose();
                     }).catch(error => {
-                        NotificationManager.error("Erreur d'enregistrement : " + error.result.data, "Taux journalier de devise");
+                        console.log("Erreur d'enregistrement", error.response);
+                        const errorMessage = error.response.data.message;
+                        NotificationManager.error(errorMessage, "Erreur d'enregistrement");
                         setSubmitting(false);
                     });
 
@@ -120,8 +126,6 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                                     Annuler
                                 </Button>
                             </Modal.Footer>
-                            <DisplayFormikState {...props}/>
-
                         </form>
                     );
                 }}
@@ -134,4 +138,12 @@ const editTauxJournalierDeviseModalComponent = (props) => {
     );
 }
 
-export default editTauxJournalierDeviseModalComponent;
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise()),
+    }
+}
+
+
+export default connect(null, mapDispatchToProps)(editTauxJournalierDeviseModalComponent);

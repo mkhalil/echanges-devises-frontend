@@ -41,6 +41,11 @@ class TauxJournalierDeviseTableComponent extends React.Component {
         this.selectedTaux = selectedTaux;
     }
 
+    toddMMYYYY = (date) => {
+        const dateStr = date.split('-');
+        return dateStr[2]+'/'+dateStr[1]+'/'+dateStr[0];
+    }
+
     render() {
 
         let listTauxJournalierDevise = this.props.listTauxJournalierDevise;
@@ -52,7 +57,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
 
                 <tr key={tauxJournalier.id} className={className}>
                     <td>{tauxJournalier.devise.abreviation}</td>
-                    <td>{tauxJournalier.date}</td>
+                    <td>{this.toddMMYYYY(tauxJournalier.dateTaux)}</td>
                     <td>{tauxJournalier.montantAchat}</td>
                     <td>{tauxJournalier.montantVente}</td>
                     <td>

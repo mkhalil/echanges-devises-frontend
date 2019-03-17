@@ -12,7 +12,7 @@ export const addTauxJournalierDevise = (tauxJournalierDevise) => {
             dispatch(listTauxJournalierDevise());
             NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
         }).catch(error => {
-            NotificationManager.error("Erreur d'enregistrement : " + error.result.data, "Taux journalier de devise");
+            NotificationManager.error("Erreur d'enregistrement : " + error.result, "Taux journalier de devise");
         });
 
     }
@@ -33,6 +33,7 @@ export const listTauxJournalierDevise = () => {
     return dispatch => {
 
         Api.get("/taux-echanges-devises").then(result => {
+
                 dispatch({type: LIST_TAUX_JOURNALIER_DEVISE, payload: result.data});
             }
         ).catch(

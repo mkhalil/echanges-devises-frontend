@@ -9,7 +9,6 @@ import {Formik} from "formik";
 import {NotificationManager} from "react-notifications";
 import Api from "../utiles/Api";
 import InputSelectBoxDevises from "./InputSelectBoxDevises";
-import DisplayFormikState from "./DisplayFormikState";
 
 class TauxJournalierDeviseFormComponent extends React.Component {
 
@@ -17,7 +16,6 @@ class TauxJournalierDeviseFormComponent extends React.Component {
     constructor(props) {
         super(props);
     }
-
 
 
     render() {
@@ -29,13 +27,14 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                 initialValues={{dateTaux: new Date(), deviseId: '', montantAchat: '', montantVente: ''}}
                 onSubmit={(values, {setSubmitting}) => {
 
-                    console.log("values", values);
                     Api.post("/taux-echanges-devises", values).then(v => {
                         NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
                         this.props.fetchListTauxJournalierDevise();
                     }).catch(error => {
-                        NotificationManager.error("Erreur d'enregistrement : " + error.result.data, "Taux journalier de devise");
+                        console.log("Erreur d'enregistrement", error.response);
+                        const errorMessage = error.response.data.message;
+                        NotificationManager.error(errorMessage, "Erreur d'enregistrement");
                         setSubmitting(false);
                     });
 
@@ -59,7 +58,7 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                         handleBlur,
                         handleSubmit,
                         handleReset,
-                        setFieldValue
+                        setFieldValue,
                     } = props;
                     return (
                         <form onSubmit={handleSubmit}>
