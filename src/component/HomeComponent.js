@@ -26,7 +26,7 @@ class HomeComponent extends React.Component{
                     <TauxDeviseCourant tauxDeviseListe={this.props.tauxDeviseListe}/>
                 </div>
                 <div className="col-md-9">
-                    <ConversionComponent/>
+                    <ConversionComponent conversionHandler={this.props.tauxDeviseListe}/>
                 </div>
             </div>
         );

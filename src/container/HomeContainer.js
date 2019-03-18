@@ -3,7 +3,7 @@ import TauxJournalierDeviseContainer from "../component/taux/container/TauxJourn
 import {Route, Switch} from "react-router-dom";
 import HomeComponent from "../component/HomeComponent";
 
-class BodyContainer extends React.Component {
+class HomeContainer extends React.Component {
 
     render() {
 
@@ -20,6 +20,6 @@ class BodyContainer extends React.Component {
     }
 }
 
-export default BodyContainer;
+export default HomeContainer;
 
 

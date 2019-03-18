@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import BodyContainer from "./container/BodyContainer";
+import HomeContainer from "./container/HomeContainer";
 import HeaderContainer from "./component/HeaderComponent";
 import './CustomStyle.css';
 import {NotificationContainer} from "react-notifications";
@@ -10,7 +10,7 @@ class App extends Component {
         return (
             <div>
                 <HeaderContainer/>
-                <BodyContainer/>
+                <HomeContainer/>
                 <NotificationContainer/>
             </div>
         );

@@ -1,9 +1,28 @@
 import React from "react";
-import InputSelectBoxDevises from "./InputSelectBoxDevises";
+import InputSelectBox from "./InputSelectBox";
 
 class ConversionComponent extends React.Component {
 
+    state = {
+        tauxDeviseListe : []
+    }
+
+    constructor(props) {
+        super(props);
+    }
+
+    conversionHandler = (tauxDeviseListe) => {
+        this.setState({
+            tauxDeviseListe : tauxDeviseListe
+        });
+    }
+
     render() {
+
+        const tauxDeviseListe = this.state.tauxDeviseListe;
+
+        const devisesList =[{text : 'Devise', value : ''},...(tauxDeviseListe.map(taux => {return {text : taux.devise.abreviation, value : taux.devise.id}}))];
+
         return (
             <React.Fragment>
 
@@ -14,13 +33,25 @@ class ConversionComponent extends React.Component {
                             <div className="form-row">
                                 <div className="form-group col">
                                     <label htmlFor="deviseId">Devise</label>
-                                    <InputSelectBoxDevises/>
+                                    <InputSelectBox
+                                        onChange={event => {console.log(event.target.value)}}
+                                        name="deviseId"
+                                        options={devisesList}
+                                    />
                                 </div>
                                 <div className="form-group col">
                                     <label htmlFor="montant">Montant</label>
                                     <input type="number" className="form-control" id="montant" placeholder="Montant"/>
                                 </div>
 
+                                <div className="form-group col">
+                                    <label htmlFor="montantAchat">Montant Achat</label>
+                                    <input type="number" className="form-control" id="montantAchat" placeholder="Montant"/>
+                                </div>
+                                <div className="form-group col">
+                                    <label htmlFor="montantVente">Montant Vente</label>
+                                    <input type="number" className="form-control" id="montantVente" placeholder="Montant"/>
+                                </div>
                             </div>
                             <a href="#" className="btn btn-primary">Convertir</a>
 
@@ -33,8 +64,9 @@ class ConversionComponent extends React.Component {
                 </div>
             </React.Fragment>
         );
+
     }
 
 }
 
-export default  ConversionComponent;
+export default ConversionComponent;
