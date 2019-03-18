@@ -51,11 +51,10 @@ class TauxJournalierDeviseTableComponent extends React.Component {
         let listTauxJournalierDevise = this.props.listTauxJournalierDevise;
 
         let tableBody = listTauxJournalierDevise.map(tauxJournalier => {
-            let className = tauxJournalier.id === this.props.selectedTauxId ? 'table-primary' : '';
             return (
 
 
-                <tr key={tauxJournalier.id} className={className}>
+                <tr key={tauxJournalier.id}>
                     <td>{tauxJournalier.devise.abreviation}</td>
                     <td>{this.toddMMYYYY(tauxJournalier.dateTaux)}</td>
                     <td>{tauxJournalier.montantAchat}</td>
@@ -74,7 +73,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
             <React.Fragment>
                 <Table responsive className="table-hover">
                     <thead>
-                    <tr>
+                    <tr className="table-primary">
                         <th>Devise</th>
                         <th>Date</th>
                         <th>Montant d'achat</th>
@@ -102,10 +101,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        listTauxJournalierDevise: state.listTauxJournalierDevise,
-        selectedTauxId: state.selectedTauxId
-    }
+    return {listTauxJournalierDevise: state.listTauxJournalierDevise}
 }
 
 

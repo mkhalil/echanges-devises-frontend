@@ -8,8 +8,10 @@ import {applyMiddleware, createStore} from "redux";
 import {Provider} from "react-redux";
 import thunk from 'redux-thunk';
 import {BrowserRouter} from "react-router-dom";
+import {composeWithDevTools} from "redux-devtools-extension";
 
-const store = createStore(tauxJournalierDeviseReducer, applyMiddleware(thunk));
+
+const store = createStore(tauxJournalierDeviseReducer, composeWithDevTools( applyMiddleware(thunk)));
 
 ReactDOM.render(
     <BrowserRouter>

@@ -2,22 +2,8 @@ import {NotificationManager} from "react-notifications";
 import Api from "../utiles/Api";
 
 export const LIST_TAUX_JOURNALIER_DEVISE = 'LIST_TAUX_JOURNALIER_DEVISE';
-export const SELECTE_TAUX_JOURNALIER_DEVISE = 'SELECTE_TAUX_JOURNALIER_DEVISE';
 export const LIST_CURRENT_TAUX = 'LIST_CURRENT_TAUX';
 
-export const addTauxJournalierDevise = (tauxJournalierDevise) => {
-
-    return dispatch => {
-
-        Api.post("/taux-echanges-devises", tauxJournalierDevise).then(v => {
-            dispatch(listTauxJournalierDevise());
-            NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
-        }).catch(error => {
-            NotificationManager.error("Erreur d'enregistrement : " + error.result, "Taux journalier de devise");
-        });
-
-    }
-}
 
 export const deleteTauxJournalierDevise = (id) => {
     return dispatch => {
@@ -32,9 +18,7 @@ export const deleteTauxJournalierDevise = (id) => {
 
 export const listTauxJournalierDevise = () => {
     return dispatch => {
-
         Api.get("/taux-echanges-devises").then(result => {
-
                 dispatch({type: LIST_TAUX_JOURNALIER_DEVISE, payload: result.data});
             }
         ).catch(
@@ -53,7 +37,7 @@ export const listCurrentTaux = () => {
 
         Api.get("/taux-echanges-devises/current").then(result => {
             console.log("result data", result.data);
-            dispatch({type : LIST_CURRENT_TAUX, payload: result.data});
+            dispatch({type: LIST_CURRENT_TAUX, payload: result.data});
         });
     }
 }

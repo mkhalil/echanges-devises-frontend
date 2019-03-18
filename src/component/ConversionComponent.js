@@ -11,7 +11,7 @@ class ConversionComponent extends React.Component {
                     <div className="card-header"><strong>Conversion</strong></div>
                     <div className="card-body">
                         <form>
-                            <div class="form-row">
+                            <div className="form-row">
                                 <div className="form-group col">
                                     <label htmlFor="deviseId">Devise</label>
                                     <InputSelectBoxDevises/>
