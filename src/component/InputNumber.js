@@ -1,7 +1,7 @@
 import React from "react";
 
 const inputNumber = (props) => {
-    let {name, error, touched, value, onChange, placeholder, onBlur} = props;
+    let {name, error, touched, value, onChange, placeholder, onBlur, disabled} = props;
 
     return (
         <React.Fragment>
@@ -14,7 +14,9 @@ const inputNumber = (props) => {
                 onBlur={onBlur}
                 value={value}
                 min="0"
-                step="0.01"/>
+                step="0.01"
+                disabled={disabled}
+            />
             {error && touched && <div className="invalid-feedback invalid">{error} </div>}
         </React.Fragment>
 

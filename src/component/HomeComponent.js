@@ -1,20 +1,13 @@
 import React from "react";
 import TauxDeviseCourant from "./taux/TauxDeviseCourant";
 import ConversionComponent from "./ConversionComponent";
-import {connect} from "react-redux";
-import * as actionTaux from "../actions/TauxJournalierDeviseAction";
 
-class HomeComponent extends React.Component{
+class HomeComponent extends React.Component {
 
 
     constructor(props) {
         super(props);
     }
-
-    componentDidMount() {
-        this.props.listCurrentTaux();
-    }
-
 
 
     render() {
@@ -23,10 +16,10 @@ class HomeComponent extends React.Component{
             <div className="row">
 
                 <div className="col-md-3">
-                    <TauxDeviseCourant tauxDeviseListe={this.props.tauxDeviseListe}/>
+                    <TauxDeviseCourant/>
                 </div>
                 <div className="col-md-9">
-                    <ConversionComponent conversionHandler={this.props.tauxDeviseListe}/>
+                    <ConversionComponent/>
                 </div>
             </div>
         );
@@ -34,15 +27,4 @@ class HomeComponent extends React.Component{
 }
 
 
-const mapDispatchToProps = (dispatch) => {
-    return {listCurrentTaux: () => dispatch(actionTaux.listCurrentTaux())}
-}
-
-
-const mapStateToProps = (state) => {
-    return {
-        tauxDeviseListe: state.listCurrentTaux
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);
+export default HomeComponent;
