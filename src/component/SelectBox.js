@@ -14,7 +14,7 @@ const selectBox = (props) => {
     return (
         <React.Fragment>
             <select className={className} onChange={handleChange} id={name} name={name} required={required}>
-                {options.map(option => <option key={option.value} value={option.value}>{option.text}</option>)}
+                {options.map(option => <option key={option.id} value={option.id}>{option.value}</option>)}
             </select>
             {errorDivMessage}
         </React.Fragment>
