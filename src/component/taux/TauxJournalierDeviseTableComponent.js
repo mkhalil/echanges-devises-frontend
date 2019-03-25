@@ -6,6 +6,7 @@ import * as actionTaux from '../../actions/TauxJournalierDeviseAction';
 import alertPopup from '../../utiles/AlertPopup';
 import EditTauxJournalierDeviseModalComponent from "./EditTauxJournalierDeviseModalComponent";
 import moment from "moment";
+import MontantEnDinar from "../MontantEnDinar";
 
 class TauxJournalierDeviseTableComponent extends React.Component {
 
@@ -57,8 +58,12 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                 <tr key={tauxJournalier.id}>
                     <td>{tauxJournalier.devise.abreviation}</td>
                     <td>{this.toddMMYYYY(tauxJournalier.dateTaux)}</td>
-                    <td>{tauxJournalier.montantAchat}</td>
-                    <td>{tauxJournalier.montantVente}</td>
+                    <td>
+                        <MontantEnDinar montant={tauxJournalier.montantAchat}/>
+                    </td>
+                    <td>
+                        <MontantEnDinar montant={tauxJournalier.montantVente}/>
+                    </td>
                     <td>
                         <Button variant="warning" className="mr-2"
                                 onClick={() => this.handleShowEditModal(tauxJournalier)}>Editer</Button>

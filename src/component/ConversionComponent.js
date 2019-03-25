@@ -120,7 +120,7 @@ class ConversionComponent extends React.Component {
                                             </div>
 
                                             <div className="form-group col">
-                                                <label htmlFor="montantAchat">Montant Achat</label>
+                                                <label htmlFor="montantAchat">Montant d'achat</label>
                                                 <InputNumber
                                                     disabled={true}
                                                     name="montantAchat"
@@ -131,7 +131,7 @@ class ConversionComponent extends React.Component {
                                                     touched={touched.montantAchat}/>
                                             </div>
                                             <div className="form-group col">
-                                                <label htmlFor="montantVente">Montant Vente</label>
+                                                <label htmlFor="montantVente">Montant du vente</label>
                                                 <InputNumber
                                                     disabled={true}
                                                     name="montantVente"
@@ -147,11 +147,6 @@ class ConversionComponent extends React.Component {
                                     </form>);
                             }}
                         </Formik>
-
-
-                        <footer className="card-text">cours d'echange 1Euro = 1.200 Dinar (Dernière mise à jour :
-                            2019-02-14 16:19)
-                        </footer>
                     </div>
                 </div>
             </React.Fragment>

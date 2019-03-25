@@ -1,6 +1,7 @@
 import * as React from "react";
 import moment from "moment";
 import Api from "../../utiles/Api";
+import MontantEnDinar from "../MontantEnDinar";
 
 class TauxDeviseCourant extends React.Component {
 
@@ -23,8 +24,15 @@ class TauxDeviseCourant extends React.Component {
             return (
                 <tr key={taux.id}>
                     <td>{taux.devise.abreviation}</td>
-                    <td>{taux.montantVente}</td>
-                    <td>{taux.montantAchat}</td>
+                    <td>
+                        <MontantEnDinar montant={taux.montantVente}/>
+
+
+                    </td>
+                    <td>
+                        <MontantEnDinar montant={taux.montantAchat}/>
+
+                    </td>
 
                 </tr>
             )
