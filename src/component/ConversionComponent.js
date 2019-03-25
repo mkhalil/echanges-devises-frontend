@@ -33,13 +33,17 @@ class ConversionComponent extends React.Component {
 
     toTauxMontantAchatMap = (result) => {
         let tauxMap = new Map();
-        result.forEach(taux => {tauxMap.set(taux.devise.id, taux.montantAchat);});
+        result.forEach(taux => {
+            tauxMap.set(taux.devise.id, taux.montantAchat);
+        });
         return tauxMap;
     }
 
     toTauxMontantVenteMap = (result) => {
         let tauxMap = new Map();
-        result.forEach(taux => {tauxMap.set(taux.devise.id, taux.montantVente);});
+        result.forEach(taux => {
+            tauxMap.set(taux.devise.id, taux.montantVente);
+        });
         return tauxMap;
     }
 
@@ -142,8 +146,19 @@ class ConversionComponent extends React.Component {
                                                     touched={touched.montantVente}/>
                                             </div>
                                         </div>
-                                        <button type="submit" id="enregistrer" className="btn btn-primary" disabled={isSubmitting}>Convertir</button>
-
+                                        <div className="d-flex">
+                                            <div className="mr-auto p-2">
+                                                <button type="submit" id="enregistrer" className="btn btn-primary"
+                                                        disabled={isSubmitting}>Convertir
+                                                </button>
+                                            </div>
+                                            <div className="p-2">
+                                                <button type="button" className="btn btn-primary">Achat</button>
+                                            </div>
+                                            <div className="p-2">
+                                                <button type="button" className="btn btn-secondary">Vente</button>
+                                            </div>
+                                        </div>
                                     </form>);
                             }}
                         </Formik>
