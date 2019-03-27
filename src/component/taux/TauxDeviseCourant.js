@@ -25,14 +25,15 @@ class TauxDeviseCourant extends React.Component {
                 <tr key={taux.id}>
                     <td>{taux.devise.abreviation}</td>
                     <td>
+                        <MontantEnDinar montant={taux.montantAchat}/>
+
+                    </td>
+                    <td>
                         <MontantEnDinar montant={taux.montantVente}/>
 
 
                     </td>
-                    <td>
-                        <MontantEnDinar montant={taux.montantAchat}/>
 
-                    </td>
 
                 </tr>
             )
@@ -45,8 +46,8 @@ class TauxDeviseCourant extends React.Component {
                       <thead>
                       <tr>
                           <th scope="col">Devise</th>
-                          <th scope="col">Vente</th>
                           <th scope="col">Achat</th>
+                          <th scope="col">Vente</th>
                       </tr>
                       </thead>
                       <tbody>
