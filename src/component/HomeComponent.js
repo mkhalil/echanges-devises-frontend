@@ -30,7 +30,13 @@ class HomeComponent extends React.Component {
                     </div>
                     <div className="col-md-9">
                         <div className="card bg-light">
-                            <div className="card-header"><strong>Operation Vente</strong></div>
+                            <div className="card-header"><strong>Operation Vente</strong>
+
+                                <nav className="nav nav-pills nav-justified">
+                                    <a className="nav-item nav-link active" href="#">Achat</a>
+                                    <a className="nav-item nav-link" href="#">Vente</a>
+                                </nav>
+                            </div>
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-md-6">

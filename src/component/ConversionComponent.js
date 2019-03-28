@@ -1,171 +1,103 @@
 import React from "react";
-import InputSelectBox from "./InputSelectBox";
 import Api from "../utiles/Api";
-import {Formik} from "formik";
-import * as Yup from "yup";
-import InputNumber from "./InputNumber";
+import MontantEnDinar from "./MontantEnDinar";
 
 class ConversionComponent extends React.Component {
 
-    state = {
-        tauxDeviseList: []
-    }
-
-    devisesOptions = [];
-
-    tauxMontantAchatMap = new Map();
-
-    tauxMontantVenteMap = new Map();
-
-
-    toDevisesOptions = (result) => {
-        return (
-            [{text: 'Devise', value: ''}, ...(result.map(taux => {
-                return {text: taux.devise.abreviation, value: taux.devise.id}
-            }))]
-        );
-    }
-
-    constructor(props) {
-        super(props);
-
-    }
-
-    toTauxMontantAchatMap = (result) => {
-        let tauxMap = new Map();
-        result.forEach(taux => {
-            tauxMap.set(taux.devise.id, taux.montantAchat);
-        });
-        return tauxMap;
-    }
-
-    toTauxMontantVenteMap = (result) => {
-        let tauxMap = new Map();
-        result.forEach(taux => {
-            tauxMap.set(taux.devise.id, taux.montantVente);
-        });
-        return tauxMap;
-    }
+    state = {deviseMontantList: []};
+    mapDevise = new Map();
 
 
     componentDidMount() {
+
         Api.get("/taux-echanges-devises/current").then(result => {
-            this.setState({tauxDeviseList: result.data});
+            this.setState({deviseMontantList: this.setToDeviseMontantList(result.data)});
+
         });
     }
+
+    setToDeviseMontantList = (resultData) => {
+        this.mapDevise = new Map();
+        const deviseMontantList = resultData.map(
+            tauxEchange => {
+                this.mapDevise.set(tauxEchange.devise.abreviation,
+                    {
+                        'montantAchat': tauxEchange.montantAchat,
+                        'montantVente': tauxEchange.montantVente
+                    }
+                );
+
+                return {
+                    'montant': '',
+                    'montantAchat': tauxEchange.montantAchat,
+                    'montantVente': tauxEchange.montantVente,
+                    'devise': tauxEchange.devise.abreviation
+                };
+            }
+        );
+
+        console.log("deviseMontantList = ", deviseMontantList);
+        return deviseMontantList;
+
+    };
+
+    handleChange = (event, index) => {
+        let deviseMontantList = this.state.deviseMontantList;
+        const deviseMontant = {...deviseMontantList[index]};
+        const valeur = event.target.value;
+        deviseMontant.montant = valeur;
+        deviseMontant.montantAchat = this.mathRound(valeur * this.mapDevise.get(deviseMontant.devise).montantAchat);
+        deviseMontant.montantVente = this.mathRound(valeur * this.mapDevise.get(deviseMontant.devise).montantVente);
+        deviseMontantList[index] = deviseMontant;
+        this.setState({
+            deviseMontantList: deviseMontantList
+        });
+    };
+
+    mathRound = (x) => Math.round(x * 1000) / 1000;
 
 
     render() {
 
-        this.devisesOptions = this.toDevisesOptions(this.state.tauxDeviseList);
-        this.tauxMontantAchatMap = this.toTauxMontantAchatMap(this.state.tauxDeviseList);
-        this.tauxMontantVenteMap = this.toTauxMontantVenteMap(this.state.tauxDeviseList);
+
+        const tbody = this.state.deviseMontantList.map((deviseMontant, index) => {
+            console.log("index = ", index);
+            return (
+                <tr key={index}>
+                    <td>{deviseMontant.devise}</td>
+                    <td><input type="number" name="montant" value={deviseMontant.montant} min="0"
+                               onChange={(event) => this.handleChange(event, index)}/></td>
+                    <td>
+                        <MontantEnDinar montant={deviseMontant.montantAchat}/>
+                    </td>
+                    <td>
+                        <MontantEnDinar montant={deviseMontant.montantVente}/>
+                    </td>
+                </tr>
+            );
+        });
 
 
         return (
-            <React.Fragment>
 
-                <div className="card bg-light">
-                    <div className="card-header"><strong>Conversion</strong></div>
-                    <div className="card-body">
+            <div className="card bg-light">
+                <div className="card-header"><strong>Conversion</strong></div>
+                <div className="card-body">
 
-                        <Formik initialValues={{deviseId: '', montant: '', montantAchat: '', montantVente: ''}}
-                                onSubmit={(values, {setSubmitting, setFieldValue}) => {
-                                    console.log("values = ", values);
-                                    const montant = values.montant;
-                                    const deviseId = parseInt(values.deviseId);
-                                    const montantAchat = montant * this.tauxMontantAchatMap.get(deviseId);
-                                    setFieldValue('montantAchat', montantAchat);
-                                    const montantVente = montant * this.tauxMontantVenteMap.get(deviseId);
-                                    setFieldValue('montantVente', montantVente);
-                                    setSubmitting(false);
-                                }}
-                                validationSchema={Yup.object().shape({
-                                    deviseId: Yup.number().required('Devise est obligatoire'),
-                                    montant: Yup.number().positive('Montant d\'achat doit être > 0').required('Montant est obligatoire')
-                                })}
-                        >
-                            {props => {
-                                const {
-                                    values,
-                                    touched,
-                                    errors,
-                                    isSubmitting,
-                                    handleChange,
-                                    handleBlur,
-                                    handleSubmit,
-                                    handleReset,
-                                    setFieldValue,
-                                } = props;
-                                return (
-                                    <form onSubmit={handleSubmit}>
-                                        <div className="form-row">
-                                            <div className="form-group col">
-                                                <label htmlFor="deviseId">Devise</label>
-                                                <InputSelectBox
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.deviseId}
-                                                    error={errors.deviseId}
-                                                    touched={touched.deviseId}
-                                                    name="deviseId"
-                                                    options={this.devisesOptions}
-                                                />
-                                            </div>
-                                            <div className="form-group col">
-                                                <label htmlFor="montant">Montant</label>
-                                                <InputNumber
-                                                    name="montant"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.montant}
-                                                    error={errors.montant}
-                                                    touched={touched.montant}/>
-                                            </div>
-
-                                            <div className="form-group col">
-                                                <label htmlFor="montantAchat">Montant d'achat</label>
-                                                <InputNumber
-                                                    disabled={true}
-                                                    name="montantAchat"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.montantAchat}
-                                                    error={errors.montantAchat}
-                                                    touched={touched.montantAchat}/>
-                                            </div>
-                                            <div className="form-group col">
-                                                <label htmlFor="montantVente">Montant du vente</label>
-                                                <InputNumber
-                                                    disabled={true}
-                                                    name="montantVente"
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    value={values.montantVente}
-                                                    error={errors.montantVente}
-                                                    touched={touched.montantVente}/>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex">
-                                            <div className="mr-auto p-2">
-                                                <button type="submit" id="enregistrer" className="btn btn-primary"
-                                                        disabled={isSubmitting}>Convertir
-                                                </button>
-                                            </div>
-                                            <div className="p-2">
-                                                <button type="button" className="btn btn-primary">Achat</button>
-                                            </div>
-                                            <div className="p-2">
-                                                <button type="button" className="btn btn-secondary">Vente</button>
-                                            </div>
-                                        </div>
-                                    </form>);
-                            }}
-                        </Formik>
-                    </div>
+                    <table className="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Devise</th>
+                            <th>Montant</th>
+                            <th>Achat</th>
+                            <th>Vente</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {tbody}
+                        </tbody>
+                    </table>
                 </div>
-            </React.Fragment>
-        );
 
     }
 

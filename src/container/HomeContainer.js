@@ -13,6 +13,7 @@ class HomeContainer extends React.Component {
                 <Switch>
                     <Route path='/taux-journalier-devises' component={TauxJournalierDeviseContainer}/>
                     <Route path='/' component={HomeComponent}/>
+
                 </Switch>
 
             </div>
