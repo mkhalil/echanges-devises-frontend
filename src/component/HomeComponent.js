@@ -1,6 +1,7 @@
 import React from "react";
 import TauxDeviseCourant from "./taux/TauxDeviseCourant";
 import ConversionComponent from "./ConversionComponent";
+import MontantEnDinar from "./MontantEnDinar";
 
 class HomeComponent extends React.Component {
 
@@ -15,29 +16,168 @@ class HomeComponent extends React.Component {
         return (
             <React.Fragment>
 
-            <div className="row">
+                <div className="row">
 
-                <div className="col-md-3">
-                    <TauxDeviseCourant/>
+                    <div className="col-md-3">
+                        <TauxDeviseCourant/>
+                    </div>
+                    <div className="col-md-9">
+                        <ConversionComponent/>
+                        <hr/>
+                    </div>
                 </div>
-                <div className="col-md-9">
-                    <ConversionComponent/>
-                    <hr/>
-                </div>
-            </div>
                 <div className="row">
                     <div className="col-md-3">
                     </div>
                     <div className="col-md-9">
                         <div className="card bg-light">
-                            <div className="card-header"><strong>Operation Vente</strong>
-
+                            <div className="card-header">
                                 <nav className="nav nav-pills nav-justified">
                                     <a className="nav-item nav-link active" href="#">Achat</a>
                                     <a className="nav-item nav-link" href="#">Vente</a>
                                 </nav>
                             </div>
                             <div className="card-body">
+
+
+                                <form>
+                                    <div className="row">
+                                        <table className="table table-hover">
+                                            <thead>
+                                            <th>
+                                                Achat de devise
+                                            </th>
+                                            <th>
+                                                Montant
+                                            </th>
+                                            <th>
+                                                Cours
+                                            </th>
+                                            <th>
+                                                Montant en DT
+                                            </th>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <select className="form-control">
+                                                        <option>Devise</option>
+                                                        <option>Euro</option>
+                                                        <option>Dollar</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" className="form-control" id="montant"/>
+                                                </td>
+                                                <td>
+                                                    <MontantEnDinar montant={2.5}/>
+                                                </td>
+                                                <td>
+                                                    <MontantEnDinar montant={250}/>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
+                                    <hr/>
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <table className="table table-bordered table-hover">
+                                                <thead>
+                                                <th>Billets</th>
+                                                <th>Quantités</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>500</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>100</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>50</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>20</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                        <div className="col-md-6">
+
+                                            <table className="table table-bordered table-hover">
+                                                <thead>
+                                                <th>Pièces</th>
+                                                <th>Quantités</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.50</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.20</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.05</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.02</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.01</td>
+                                                    <td><input type="number" min="0" className="form-control"
+                                                               style={{width: '100px'}}/></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+
                                 <div className="row">
                                     <div className="col-md-6">
                                         <form>
@@ -45,19 +185,19 @@ class HomeComponent extends React.Component {
                                                 <div className="form-group col-md-12">
                                                     <label htmlFor="recherchePersonne">Recherche</label>
                                                     <input type="text" className="form-control" id="recherchePersonne"
-                                                           placeholder="Recherche de personne" />
+                                                           placeholder="Recherche de personne"/>
                                                 </div>
                                             </div>
                                             <div className="form-row">
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="inputEmail4">Email</label>
                                                     <input type="email" className="form-control" id="inputEmail4"
-                                                           placeholder="Email" />
+                                                           placeholder="Email"/>
                                                 </div>
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="inputPassword4">Password</label>
                                                     <input type="password" className="form-control" id="inputPassword4"
-                                                           placeholder="Password" />
+                                                           placeholder="Password"/>
                                                 </div>
                                             </div>
                                             <div className="form-group">
@@ -89,178 +229,17 @@ class HomeComponent extends React.Component {
                                             </div>
                                             <div className="form-group">
                                                 <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" id="gridCheck" />
-                                                        <label className="form-check-label" htmlFor="gridCheck">
-                                                            Check me out
-                                                        </label>
+                                                    <input className="form-check-input" type="checkbox" id="gridCheck"/>
+                                                    <label className="form-check-label" htmlFor="gridCheck">
+                                                        Check me out
+                                                    </label>
                                                 </div>
                                             </div>
                                             <button type="submit" className="btn btn-primary">Enregistrer</button>
                                         </form>
 
                                     </div>
-                                    <div className="col-md-6">
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <h3 className="text-center">300 Euros</h3>
-                                                <form>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="100Euros"
-                                                               className="col-sm-6 col-form-label">100 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="100Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="50Euros"
-                                                               className="col-sm-6 col-form-label">50 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="50Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="20Euros"
-                                                               className="col-sm-6 col-form-label">20 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="20Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="10Euros"
-                                                               className="col-sm-6 col-form-label">10 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="10Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="5Euros"
-                                                               className="col-sm-6 col-form-label">5 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="5Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="2Euros"
-                                                               className="col-sm-6 col-form-label">2 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="2Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="1Euros"
-                                                               className="col-sm-6 col-form-label">1 Euros</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="1Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.5Euros"
-                                                               className="col-sm-6 col-form-label">50 cent</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.5Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.2Euros"
-                                                               className="col-sm-6 col-form-label">20 cent</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.2Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.1Euros"
-                                                               className="col-sm-6 col-form-label">10 cent</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.1Euros" />
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <h3 className="text-center">500 Dinars</h3>
-                                                <form>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="100Euros"
-                                                               className="col-sm-6 col-form-label">100 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="100Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="50Euros"
-                                                               className="col-sm-6 col-form-label">50 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="50Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="20Euros"
-                                                               className="col-sm-6 col-form-label">20 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="20Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="10Euros"
-                                                               className="col-sm-6 col-form-label">10 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="10Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="5Euros"
-                                                               className="col-sm-6 col-form-label">5 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="5Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="2Euros"
-                                                               className="col-sm-6 col-form-label">2 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="2Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="1Euros"
-                                                               className="col-sm-6 col-form-label">1 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="1Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.5Euros"
-                                                               className="col-sm-6 col-form-label">0.5 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.5Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.2Euros"
-                                                               className="col-sm-6 col-form-label">0.2 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.2Euros" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.1Euros"
-                                                               className="col-sm-6 col-form-label">0.1 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.1Euros" />
-                                                        </div>
-                                                    </div>
 
-                                                    <div className="form-group row">
-                                                        <label htmlFor="0.1Euros"
-                                                               className="col-sm-6 col-form-label">0.05 Dinars</label>
-                                                        <div className="col-sm-6">
-                                                            <input type="text" className="form-control" id="0.1Euros" />
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

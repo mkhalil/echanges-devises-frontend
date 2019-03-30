@@ -65,7 +65,7 @@ class ConversionComponent extends React.Component {
             return (
                 <tr key={index}>
                     <td>{deviseMontant.devise}</td>
-                    <td><input type="number" name="montant" value={deviseMontant.montant} min="0"
+                    <td><input type="number" name="montant" value={deviseMontant.montant} min="0" className="form-control" style={{width:'100px'}}
                                onChange={(event) => this.handleChange(event, index)}/></td>
                     <td>
                         <MontantEnDinar montant={deviseMontant.montantAchat}/>
@@ -98,7 +98,7 @@ class ConversionComponent extends React.Component {
                         </tbody>
                     </table>
                 </div>
-
+            </div>);
     }
 
 }
