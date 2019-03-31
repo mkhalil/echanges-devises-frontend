@@ -7,7 +7,7 @@ import {Formik} from "formik";
 import DatePicker from "react-datepicker";
 import InputNumber from "../InputNumber";
 import InputSelectBoxDevises from "../InputSelectBoxDevises";
-import * as actionTaux from "../../actions/TauxJournalierDeviseAction";
+import * as actionTaux from "../../actions/Action";
 import connect from "react-redux/es/connect/connect";
 
 const editTauxJournalierDeviseModalComponent = (props) => {

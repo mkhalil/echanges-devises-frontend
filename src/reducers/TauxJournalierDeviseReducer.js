@@ -1,4 +1,4 @@
-import * as tauxJournalierDeviseAction from '../actions/TauxJournalierDeviseAction';
+import * as tauxJournalierDeviseAction from '../actions/Action';
 
 const initState = {
     listTauxJournalierDevise: [],

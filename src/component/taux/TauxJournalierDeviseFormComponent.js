@@ -1,7 +1,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import * as actionTaux from '../../actions/TauxJournalierDeviseAction';
+import * as actionTaux from '../../actions/Action';
 import {connect} from "react-redux";
 import * as Yup from "yup";
 import InputNumber from "../InputNumber";

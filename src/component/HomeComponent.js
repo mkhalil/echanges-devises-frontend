@@ -2,17 +2,24 @@ import React from "react";
 import TauxDeviseCourant from "./taux/TauxDeviseCourant";
 import ConversionComponent from "./ConversionComponent";
 import MontantEnDinar from "./MontantEnDinar";
+import InputSelectBoxDevises from "./InputSelectBoxDevises";
 
 class HomeComponent extends React.Component {
 
+    state = {selectedDevise : ''};
 
     constructor(props) {
         super(props);
     }
 
+    onChangeDevise = (event) => {
+        console.log("Devise = ", event.target.value);
+        const deviseId = event.target.value;
+        this.setState({'selectedDevise': deviseId});
+    }
+
 
     render() {
-
         return (
             <React.Fragment>
 
@@ -44,28 +51,26 @@ class HomeComponent extends React.Component {
                                     <div className="row">
                                         <table className="table table-hover">
                                             <thead>
-                                            <th>
-                                                Achat de devise
-                                            </th>
-                                            <th>
-                                                Montant
-                                            </th>
-                                            <th>
-                                                Cours
-                                            </th>
-                                            <th>
-                                                Montant en DT
-                                            </th>
+                                            <tr>
+                                                <th>
+                                                    Achat de devise
+                                                </th>
+                                                <th>
+                                                    Montant
+                                                </th>
+                                                <th>
+                                                    Cours
+                                                </th>
+                                                <th>
+                                                    Montant en DT
+                                                </th>
+                                            </tr>
                                             </thead>
 
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <select className="form-control">
-                                                        <option>Devise</option>
-                                                        <option>Euro</option>
-                                                        <option>Dollar</option>
-                                                    </select>
+                                                    <InputSelectBoxDevises value={this.state.selectedDevise} onChange={(event) => this.onChangeDevise(event)}/>
                                                 </td>
                                                 <td>
                                                     <input type="number" className="form-control" id="montant"/>
@@ -89,8 +94,10 @@ class HomeComponent extends React.Component {
                                         <div className="col-md-6">
                                             <table className="table table-bordered table-hover">
                                                 <thead>
-                                                <th>Billets</th>
-                                                <th>Quantités</th>
+                                                <tr>
+                                                    <th>Billets</th>
+                                                    <th>Quantités</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
@@ -131,8 +138,10 @@ class HomeComponent extends React.Component {
 
                                             <table className="table table-bordered table-hover">
                                                 <thead>
+                                                <tr>
                                                 <th>Pièces</th>
                                                 <th>Quantités</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
@@ -218,7 +227,7 @@ class HomeComponent extends React.Component {
                                                 <div className="form-group col-md-4">
                                                     <label htmlFor="inputState">State</label>
                                                     <select id="inputState" className="form-control">
-                                                        <option selected>Choose...</option>
+                                                        <option>Choose...</option>
                                                         <option>...</option>
                                                     </select>
                                                 </div>

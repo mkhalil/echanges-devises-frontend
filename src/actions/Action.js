@@ -3,7 +3,7 @@ import Api from "../utiles/Api";
 
 export const LIST_TAUX_JOURNALIER_DEVISE = 'LIST_TAUX_JOURNALIER_DEVISE';
 export const LIST_CURRENT_TAUX = 'LIST_CURRENT_TAUX';
-
+export const LIST_DEVISES = 'LIST_DEVISES';
 
 export const deleteTauxJournalierDevise = (id) => {
     return dispatch => {
@@ -31,6 +31,7 @@ export const listTauxJournalierDevise = () => {
     }
 
 }
+
 
 export const listCurrentTaux = () => {
     return dispatch => {

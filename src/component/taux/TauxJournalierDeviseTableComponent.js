@@ -2,7 +2,7 @@ import React from "react";
 import Table from 'react-bootstrap/Table';
 import {Button} from "react-bootstrap";
 import {connect} from "react-redux";
-import * as actionTaux from '../../actions/TauxJournalierDeviseAction';
+import * as actionTaux from '../../actions/Action';
 import alertPopup from '../../utiles/AlertPopup';
 import EditTauxJournalierDeviseModalComponent from "./EditTauxJournalierDeviseModalComponent";
 import moment from "moment";
