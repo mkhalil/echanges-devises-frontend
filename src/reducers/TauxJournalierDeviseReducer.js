@@ -7,12 +7,12 @@ const initState = {
 
 const tauxJournalierDeviseReducer = (state = initState, action) => {
 
-    if (action.type === tauxJournalierDeviseAction.LIST_TAUX_JOURNALIER_DEVISE) {
+    if (action.type === tauxJournalierDeviseAction.LIST_TAUX_DEVISE) {
         return {...state, listTauxJournalierDevise: action.payload};
     }
 
 
-    if (action.type === tauxJournalierDeviseAction.LIST_CURRENT_TAUX) {
+    if (action.type === tauxJournalierDeviseAction.LIST_TAUX_DEVISE_TODAY) {
         console.log('listCurrentTaux', action.payload);
         return {...state, listCurrentTaux: action.payload};
     }

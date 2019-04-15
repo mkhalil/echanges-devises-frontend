@@ -3,7 +3,7 @@ import React from "react";
 import CurrencyFormat from 'react-currency-format';
 
 
-const MontantEnDinar = (props) => {
+const MontantEnDT = (props) => {
     const montant = props.montant;
     return (
 
@@ -13,4 +13,4 @@ const MontantEnDinar = (props) => {
 
 }
 
-export default MontantEnDinar;
+export default MontantEnDT;

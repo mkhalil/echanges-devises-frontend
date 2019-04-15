@@ -6,9 +6,9 @@ import * as actionTaux from '../../actions/Action';
 import alertPopup from '../../utiles/AlertPopup';
 import EditTauxJournalierDeviseModalComponent from "./EditTauxJournalierDeviseModalComponent";
 import moment from "moment";
-import MontantEnDinar from "../MontantEnDinar";
+import MontantEnDT from "../MontantEnDT";
 
-class TauxJournalierDeviseTableComponent extends React.Component {
+class TauxDeviseTableComponent extends React.Component {
 
 
     constructor(props) {
@@ -59,10 +59,10 @@ class TauxJournalierDeviseTableComponent extends React.Component {
                     <td>{tauxJournalier.devise.abreviation}</td>
                     <td>{this.toddMMYYYY(tauxJournalier.dateTaux)}</td>
                     <td>
-                        <MontantEnDinar montant={tauxJournalier.montantAchat}/>
+                        <MontantEnDT montant={tauxJournalier.montantAchat}/>
                     </td>
                     <td>
-                        <MontantEnDinar montant={tauxJournalier.montantVente}/>
+                        <MontantEnDT montant={tauxJournalier.montantVente}/>
                     </td>
                     <td>
                         <Button variant="warning" className="mr-2"
@@ -99,7 +99,7 @@ class TauxJournalierDeviseTableComponent extends React.Component {
 
 
     componentDidMount() {
-        this.props.fetchListTauxJournalierDevise();
+        this.props.fetchListTauxDevise();
     }
 
 
@@ -112,9 +112,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise()),
-        deleteTauxJournalierDevise: (id) => dispatch(actionTaux.deleteTauxJournalierDevise(id))
+        fetchListTauxDevise: () => dispatch(actionTaux.listTauxDevise()),
+        deleteTauxJournalierDevise: (id) => dispatch(actionTaux.deleteTauxDevise(id))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TauxJournalierDeviseTableComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(TauxDeviseTableComponent);

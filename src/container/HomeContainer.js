@@ -1,5 +1,5 @@
 import React from "react";
-import TauxJournalierDeviseContainer from "../component/taux/container/TauxJournalierDeviseContainer";
+import TauxDeviseContainer from "../component/taux/container/TauxDeviseContainer";
 import {Route, Switch} from "react-router-dom";
 import HomeComponent from "../component/HomeComponent";
 
@@ -11,7 +11,7 @@ class HomeContainer extends React.Component {
             <div className="container-fluid container-pading-top">
 
                 <Switch>
-                    <Route path='/taux-journalier-devises' component={TauxJournalierDeviseContainer}/>
+                    <Route path='/taux-devises' component={TauxDeviseContainer}/>
                     <Route path='/' component={HomeComponent}/>
 
                 </Switch>

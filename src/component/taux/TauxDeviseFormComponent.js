@@ -10,7 +10,7 @@ import {NotificationManager} from "react-notifications";
 import Api from "../../utiles/Api";
 import InputSelectBoxDevises from "../InputSelectBoxDevises";
 
-class TauxJournalierDeviseFormComponent extends React.Component {
+class TauxDeviseFormComponent extends React.Component {
 
     render() {
 
@@ -21,10 +21,10 @@ class TauxJournalierDeviseFormComponent extends React.Component {
                 initialValues={{dateTaux: new Date(), deviseId: '', montantAchat: '', montantVente: ''}}
                 onSubmit={(values, {setSubmitting}) => {
 
-                    Api.post("/taux-echanges-devises", values).then(v => {
+                    Api.post("/taux-devises", values).then(v => {
                         NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
-                        this.props.fetchListTauxJournalierDevise();
+                        this.props.fetchListTauxDevise();
                     }).catch(error => {
                         console.log("Erreur d'enregistrement", error.response);
                         const errorMessage = error.response.data.message;
@@ -122,8 +122,8 @@ class TauxJournalierDeviseFormComponent extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise())
+        fetchListTauxDevise: () => dispatch(actionTaux.listTauxDevise())
     }
 }
 
-export default connect(null, mapDispatchToProps)(TauxJournalierDeviseFormComponent);
+export default connect(null, mapDispatchToProps)(TauxDeviseFormComponent);

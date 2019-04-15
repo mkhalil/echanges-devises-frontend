@@ -1,9 +1,9 @@
 import * as React from "react";
 import moment from "moment";
 import Api from "../../utiles/Api";
-import MontantEnDinar from "../MontantEnDinar";
+import MontantEnDT from "../MontantEnDT";
 
-class TauxDeviseCourant extends React.Component {
+class TauxDeviseToDay extends React.Component {
 
 
     constructor(props) {
@@ -12,7 +12,7 @@ class TauxDeviseCourant extends React.Component {
     }
 
     componentDidMount() {
-        Api.get("/taux-echanges-devises/current").then(result => {
+        Api.get("/taux-devises/today").then(result => {
             this.setState({tauxDeviseList: result.data});
         });
     }
@@ -25,11 +25,11 @@ class TauxDeviseCourant extends React.Component {
                 <tr key={taux.id}>
                     <td>{taux.devise.abreviation}</td>
                     <td>
-                        <MontantEnDinar montant={taux.montantAchat}/>
+                        <MontantEnDT montant={taux.montantAchat}/>
 
                     </td>
                     <td>
-                        <MontantEnDinar montant={taux.montantVente}/>
+                        <MontantEnDT montant={taux.montantVente}/>
 
 
                     </td>
@@ -60,4 +60,4 @@ class TauxDeviseCourant extends React.Component {
     }
 }
 
-export default TauxDeviseCourant;
+export default TauxDeviseToDay;

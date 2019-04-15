@@ -32,10 +32,10 @@ const editTauxJournalierDeviseModalComponent = (props) => {
                 initialValues={taux}
                 onSubmit={(values, {setSubmitting}) => {
 
-                    Api.put("/taux-echanges-devises/" + taux.id, values).then(v => {
+                    Api.put("/taux-devises/" + taux.id, values).then(v => {
                         NotificationManager.success("Enregistrement avec succés", "Taux journalier de devise");
                         setSubmitting(false);
-                        props.fetchListTauxJournalierDevise();
+                        props.fetchListTauxDevise();
                         handleClose();
                     }).catch(error => {
                         console.log("Erreur d'enregistrement", error.response);
@@ -139,7 +139,7 @@ const editTauxJournalierDeviseModalComponent = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchListTauxJournalierDevise: () => dispatch(actionTaux.listTauxJournalierDevise()),
+        fetchListTauxDevise: () => dispatch(actionTaux.listTauxDevise()),
     }
 }
 

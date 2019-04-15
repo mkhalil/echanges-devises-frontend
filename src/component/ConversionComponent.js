@@ -1,6 +1,6 @@
 import React from "react";
 import Api from "../utiles/Api";
-import MontantEnDinar from "./MontantEnDinar";
+import MontantEnDT from "./MontantEnDT";
 
 class ConversionComponent extends React.Component {
 
@@ -10,9 +10,8 @@ class ConversionComponent extends React.Component {
 
     componentDidMount() {
 
-        Api.get("/taux-echanges-devises/current").then(result => {
+        Api.get("/taux-devises/today").then(result => {
             this.setState({deviseMontantList: this.setToDeviseMontantList(result.data)});
-
         });
     }
 
@@ -68,10 +67,10 @@ class ConversionComponent extends React.Component {
                     <td><input type="number" name="montant" value={deviseMontant.montant} min="0" className="form-control" style={{width:'100px'}}
                                onChange={(event) => this.handleChange(event, index)}/></td>
                     <td>
-                        <MontantEnDinar montant={deviseMontant.montantAchat}/>
+                        <MontantEnDT montant={deviseMontant.montantAchat}/>
                     </td>
                     <td>
-                        <MontantEnDinar montant={deviseMontant.montantVente}/>
+                        <MontantEnDT montant={deviseMontant.montantVente}/>
                     </td>
                 </tr>
             );

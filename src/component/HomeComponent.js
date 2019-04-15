@@ -1,7 +1,7 @@
 import React from "react";
-import TauxDeviseCourant from "./taux/TauxDeviseCourant";
+import TauxDeviseToDay from "./taux/TauxDeviseToDay";
 import ConversionComponent from "./ConversionComponent";
-import MontantEnDinar from "./MontantEnDinar";
+import MontantEnDT from "./MontantEnDT";
 import InputSelectBoxDevises from "./InputSelectBoxDevises";
 import Api from "../utiles/Api";
 import MonnaieListComponent from "./MonnaieListComponent";
@@ -25,6 +25,11 @@ class HomeComponent extends React.Component {
         });
     }
 
+    componentDidMount() {
+
+
+    }
+
 
     render() {
         return (
@@ -33,7 +38,7 @@ class HomeComponent extends React.Component {
                 <div className="row">
 
                     <div className="col-md-3">
-                        <TauxDeviseCourant/>
+                        <TauxDeviseToDay/>
                     </div>
                     <div className="col-md-9">
                         <ConversionComponent/>
@@ -83,10 +88,10 @@ class HomeComponent extends React.Component {
                                                     <input type="number" className="form-control" id="montant"/>
                                                 </td>
                                                 <td>
-                                                    <MontantEnDinar montant={2.5}/>
+                                                    <MontantEnDT montant={2.5}/>
                                                 </td>
                                                 <td>
-                                                    <MontantEnDinar montant={250}/>
+                                                    <MontantEnDT montant={250}/>
                                                 </td>
                                             </tr>
 
