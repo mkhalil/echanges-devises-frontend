@@ -3,10 +3,13 @@ import TauxDeviseCourant from "./taux/TauxDeviseCourant";
 import ConversionComponent from "./ConversionComponent";
 import MontantEnDinar from "./MontantEnDinar";
 import InputSelectBoxDevises from "./InputSelectBoxDevises";
+import Api from "../utiles/Api";
+import MonnaieListComponent from "./MonnaieListComponent";
+import EnumTypeMonnaie from "../utiles/EnumTypeMonnaie";
 
 class HomeComponent extends React.Component {
 
-    state = {selectedDevise : ''};
+    state = {selectedDevise : '', monnaieList : []};
 
     constructor(props) {
         super(props);
@@ -16,6 +19,10 @@ class HomeComponent extends React.Component {
         console.log("Devise = ", event.target.value);
         const deviseId = event.target.value;
         this.setState({'selectedDevise': deviseId});
+        Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
+            console.log("monnaieList = ", result.data);
+            this.setState({monnaieList: result.data});
+        });
     }
 
 
@@ -92,95 +99,12 @@ class HomeComponent extends React.Component {
 
                                     <div className="row">
                                         <div className="col-md-6">
-                                            <table className="table table-bordered table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th>Billets</th>
-                                                    <th>Quantités</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>500</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>100</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>50</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>20</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                </tbody>
-
-                                            </table>
+                                            <MonnaieListComponent monnaieList={this.state.monnaieList}
+                                                                  type={EnumTypeMonnaie.BILLET} />
                                         </div>
                                         <div className="col-md-6">
-
-                                            <table className="table table-bordered table-hover">
-                                                <thead>
-                                                <tr>
-                                                <th>Pièces</th>
-                                                <th>Quantités</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>0.50</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>0.20</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>0.05</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>0.02</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>0.01</td>
-                                                    <td><input type="number" min="0" className="form-control"
-                                                               style={{width: '100px'}}/></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                            <MonnaieListComponent monnaieList={this.state.monnaieList}
+                                                                  type={EnumTypeMonnaie.PIECE} />
                                         </div>
                                     </div>
 
