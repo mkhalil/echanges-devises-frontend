@@ -1,6 +1,7 @@
 import React from "react";
 import Api from "../utiles/Api";
 import MontantEnDT from "./MontantEnDT";
+import * as MathUtils from "../utiles/MathUtils";
 
 class ConversionComponent extends React.Component {
 
@@ -27,7 +28,7 @@ class ConversionComponent extends React.Component {
                 );
 
                 return {
-                    'montant': '',
+                    'montantEchange': '',
                     'montantAchat': tauxEchange.montantAchat,
                     'montantVente': tauxEchange.montantVente,
                     'devise': tauxEchange.devise.abreviation
@@ -45,15 +46,14 @@ class ConversionComponent extends React.Component {
         const deviseMontant = {...deviseMontantList[index]};
         const valeur = event.target.value;
         deviseMontant.montant = valeur;
-        deviseMontant.montantAchat = this.mathRound(valeur * this.mapDevise.get(deviseMontant.devise).montantAchat);
-        deviseMontant.montantVente = this.mathRound(valeur * this.mapDevise.get(deviseMontant.devise).montantVente);
+        deviseMontant.montantAchat = MathUtils.mathRound(valeur * this.mapDevise.get(deviseMontant.devise).montantAchat);
+        deviseMontant.montantVente = MathUtils.mathRound(valeur * this.mapDevise.get(deviseMontant.devise).montantVente);
         deviseMontantList[index] = deviseMontant;
         this.setState({
             deviseMontantList: deviseMontantList
         });
     };
 
-    mathRound = (x) => Math.round(x * 1000) / 1000;
 
 
     render() {

@@ -2,14 +2,26 @@ import React from "react";
 import TauxDeviseToDay from "./taux/TauxDeviseToDay";
 import ConversionComponent from "./ConversionComponent";
 import MontantEnDT from "./MontantEnDT";
-import InputSelectBoxDevises from "./InputSelectBoxDevises";
 import Api from "../utiles/Api";
 import MonnaieListComponent from "./MonnaieListComponent";
 import EnumTypeMonnaie from "../utiles/EnumTypeMonnaie";
+import InputSelectBox from "./InputSelectBox";
+import * as MathUtils from "../utiles/MathUtils";
+import * as StringsUtils from "../utiles/StringsUtils";
 
 class HomeComponent extends React.Component {
 
-    state = {selectedDevise : '', monnaieList : []};
+    state = {
+        selectedDeviseId : '',
+        monnaieList : [],
+        devisesOptionsListe:[],
+        montantEchange : '',
+        montantTauxDevise : '',
+        montant:''
+    };
+
+    mapDeviseMontant = new Map();
+
 
     constructor(props) {
         super(props);
@@ -18,17 +30,65 @@ class HomeComponent extends React.Component {
     onChangeDevise = (event) => {
         console.log("Devise = ", event.target.value);
         const deviseId = event.target.value;
-        this.setState({'selectedDevise': deviseId});
-        Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
-            console.log("monnaieList = ", result.data);
-            this.setState({monnaieList: result.data});
-        });
+        this.setState({selectedDeviseId: deviseId});
+        if (deviseId !== '') {
+            Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
+                console.log("monnaieList = ", result.data);
+                this.setState({monnaieList: result.data});
+            });
+        } else {
+            this.setState({monnaieList: []});
+        }
+        this.setStateMontant(this.state.montant, deviseId);
     }
 
     componentDidMount() {
+        Api.get("/taux-devises/today").then(
+            result => {
 
+                const options = result.data.map(tauxDevise =>
+
+                {
+                    this.mapDeviseMontant.set(tauxDevise.devise.id, tauxDevise.montantAchat);
+                    return {text:tauxDevise.devise.abreviation, value:tauxDevise.devise.id};
+                });
+
+
+                this.setState({
+                    devisesOptionsListe : [{value: '', text: 'Devise'},...options]
+                });
+            }
+        );
+
+        console.log(this.mapDeviseMontant);
 
     }
+
+    setStateMontant = (montant, deviseId) => {
+
+        if (StringsUtils.isEmpty(deviseId)) {
+            this.setState({montantTauxDevise : ''});
+            this.setState({montantEchange : ''});
+
+        }else {
+            this.setState({montantTauxDevise : this.mapDeviseMontant.get(parseInt(deviseId))});
+            if (StringsUtils.isEmpty(montant)) {
+                this.setState({montantEchange: ''});
+            }else{
+                this.setState({montantEchange:MathUtils.mathRound(parseInt(deviseId) * montant)});
+            }
+        }
+
+    }
+
+
+    onChangeMontant = (event) => {
+        const montant = event.target.value;
+        this.setState({montant:event.target.value});
+        this.setStateMontant(montant, this.state.selectedDeviseId);
+    }
+
+
 
 
     render() {
@@ -82,16 +142,18 @@ class HomeComponent extends React.Component {
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <InputSelectBoxDevises value={this.state.selectedDevise} onChange={(event) => this.onChangeDevise(event)}/>
+
+                                                    <InputSelectBox options={this.state.devisesOptionsListe} value={this.state.selectedDeviseId}
+                                                                    onChange={(event) => this.onChangeDevise(event)}/>
                                                 </td>
                                                 <td>
-                                                    <input type="number" className="form-control" id="montant"/>
+                                                    <input type="number" className="form-control" id="montant"  onChange={(event) => this.onChangeMontant(event)}/>
                                                 </td>
                                                 <td>
-                                                    <MontantEnDT montant={2.5}/>
+                                                    <MontantEnDT montant={this.state.montantTauxDevise}/>
                                                 </td>
                                                 <td>
-                                                    <MontantEnDT montant={250}/>
+                                                    <MontantEnDT montant={this.state.montantEchange}/>
                                                 </td>
                                             </tr>
 
