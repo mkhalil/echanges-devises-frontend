@@ -1,45 +1,39 @@
 import React from "react";
-import Api from "../utiles/Api";
+import {connect} from "react-redux";
 import MontantEnDT from "./MontantEnDT";
 import * as MathUtils from "../utiles/MathUtils";
 
 class ConversionComponent extends React.Component {
 
+
     state = {deviseMontantList: []};
     mapDevise = new Map();
 
-
-    componentDidMount() {
-
-        Api.get("/taux-devises/today").then(result => {
-            this.setState({deviseMontantList: this.setToDeviseMontantList(result.data)});
-        });
-    }
-
-    setToDeviseMontantList = (resultData) => {
-        this.mapDevise = new Map();
-        const deviseMontantList = resultData.map(
+    setMapDevise = (listTauxDeviseToday) => {
+        const map = new Map();
+        listTauxDeviseToday.forEach(
             tauxEchange => {
-                this.mapDevise.set(tauxEchange.devise.abreviation,
-                    {
-                        'montantAchat': tauxEchange.montantAchat,
-                        'montantVente': tauxEchange.montantVente
-                    }
-                );
-
-                return {
-                    'montantEchange': '',
+                map.set(tauxEchange.devise.abreviation, {
                     'montantAchat': tauxEchange.montantAchat,
-                    'montantVente': tauxEchange.montantVente,
-                    'devise': tauxEchange.devise.abreviation
-                };
+                    'montantVente': tauxEchange.montantVente
+                });
             }
         );
+        return map;
+    }
 
-        console.log("deviseMontantList = ", deviseMontantList);
-        return deviseMontantList;
+    setStateDeviseMontantList = (listTauxDeviseToday) => {
+        const tauxList = listTauxDeviseToday.map(tauxDevise => {
+            return {
+                'montant': '',
+                'montantAchat': tauxDevise.montantAchat,
+                'montantVente': tauxDevise.montantVente,
+                'devise': tauxDevise.devise.abreviation
+            }
+        });
+        this.setState({deviseMontantList :tauxList});
+    }
 
-    };
 
     handleChange = (event, index) => {
         let deviseMontantList = this.state.deviseMontantList;
@@ -54,13 +48,15 @@ class ConversionComponent extends React.Component {
         });
     };
 
-
+    componentWillReceiveProps(newProps) {
+        this.setStateDeviseMontantList(newProps.listTauxDeviseToday);
+        this.mapDevise = this.setMapDevise(newProps.listTauxDeviseToday);
+        console.log('this.mapDevise = ', this.mapDevise);
+    }
 
     render() {
 
-
         const tbody = this.state.deviseMontantList.map((deviseMontant, index) => {
-            console.log("index = ", index);
             return (
                 <tr key={index}>
                     <td>{deviseMontant.devise}</td>
@@ -102,4 +98,8 @@ class ConversionComponent extends React.Component {
 
 }
 
-export default ConversionComponent;
+
+const mapStateToProps = (state) => {
+    return {listTauxDeviseToday: state.listTauxDeviseToday}
+}
+export default connect(mapStateToProps, null)(ConversionComponent);

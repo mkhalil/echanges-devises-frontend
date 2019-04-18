@@ -15,6 +15,20 @@ export const deleteTauxDevise = (id) => {
 }
 
 
+export const listTauxDeviseToday = () => {
+    return dispatch => {
+        Api.get("/taux-devises/today").then(result => {
+                dispatch({type: LIST_TAUX_DEVISE_TODAY, payload: result.data});
+            }
+        ).catch(
+            error => {
+                console.error(error);
+                NotificationManager.error("Erreur : ", "List Taux journalier de devise d'aujourd'hui");
+            }
+        );
+    }
+}
+
 export const listTauxDevise = () => {
     return dispatch => {
         Api.get("/taux-devises").then(result => {
@@ -23,21 +37,9 @@ export const listTauxDevise = () => {
         ).catch(
             error => {
                 console.error(error);
-                NotificationManager.error("Erreur d'enregistrement : ", "Taux journalier de devise");
-
+                NotificationManager.error("Erreur : ", "List Taux journalier de devise");
             }
         );
     }
 
-}
-
-
-export const listCurrentTaux = () => {
-    return dispatch => {
-
-        Api.get("/taux-devises/today").then(result => {
-            console.log("result data", result.data);
-            dispatch({type: LIST_TAUX_DEVISE_TODAY, payload: result.data});
-        });
-    }
 }

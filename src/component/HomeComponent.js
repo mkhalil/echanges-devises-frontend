@@ -1,5 +1,5 @@
 import React from "react";
-import TauxDeviseToDay from "./taux/TauxDeviseToDay";
+import TauxDeviseToDayComponent from "./taux/TauxDeviseToDayComponent";
 import ConversionComponent from "./ConversionComponent";
 import MontantEnDT from "./MontantEnDT";
 import Api from "../utiles/Api";
@@ -9,6 +9,9 @@ import InputSelectBox from "./InputSelectBox";
 import * as MathUtils from "../utiles/MathUtils";
 import * as StringsUtils from "../utiles/StringsUtils";
 import CurrencyFormat from "react-currency-format";
+import TestComponent from "./TestComponent";
+import * as actionTaux from "../actions/Action";
+import {connect} from "react-redux";
 
 class HomeComponent extends React.Component {
 
@@ -48,6 +51,8 @@ class HomeComponent extends React.Component {
     }
 
     componentDidMount() {
+        this.props.fetchListTauxDevise();
+        /*
         Api.get("/taux-devises/today").then(
             result => {
 
@@ -63,7 +68,7 @@ class HomeComponent extends React.Component {
                     devisesOptionsListe : [{value: '', text: 'Devise'},...options]
                 });
             }
-        );
+        );*/
 
     }
 
@@ -123,7 +128,7 @@ class HomeComponent extends React.Component {
                 <div className="row">
 
                     <div className="col-md-3">
-                        <TauxDeviseToDay/>
+                        <TauxDeviseToDayComponent/>
                     </div>
                     <div className="col-md-9">
                         <ConversionComponent/>
@@ -143,7 +148,7 @@ class HomeComponent extends React.Component {
                             </div>
                             <div className="card-body">
 
-
+                                <TestComponent deviseId={this.state.selectedDeviseId}/>
                                 <form>
                                     <div className="row">
                                         <table className="table table-hover">
@@ -287,4 +292,15 @@ class HomeComponent extends React.Component {
 }
 
 
-export default HomeComponent;
+
+const mapStateToProps = (state) => {
+    return {listTauxDeviseToday: state.listTauxDeviseToday}
+}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchListTauxDevise: () => dispatch(actionTaux.listTauxDeviseToday()),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

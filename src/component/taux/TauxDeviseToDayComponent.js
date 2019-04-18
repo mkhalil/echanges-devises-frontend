@@ -1,26 +1,18 @@
 import * as React from "react";
 import moment from "moment";
-import Api from "../../utiles/Api";
+import {connect} from "react-redux";
 import MontantEnDT from "../MontantEnDT";
 
-class TauxDeviseToDay extends React.Component {
+class TauxDeviseToDayComponent extends React.Component {
 
 
     constructor(props) {
         super(props);
-        this.state = {tauxDeviseList : []};
     }
-
-    componentDidMount() {
-        Api.get("/taux-devises/today").then(result => {
-            this.setState({tauxDeviseList: result.data});
-        });
-    }
-
 
     render() {
         const currentDate = moment().format('DD/MM/YYYY');
-        let bodyTableTaux = this.state.tauxDeviseList.map(taux => {
+        let bodyTableTaux = this.props.listTauxDeviseToday.map(taux => {
             return (
                 <tr key={taux.id}>
                     <td>{taux.devise.abreviation}</td>
@@ -60,4 +52,10 @@ class TauxDeviseToDay extends React.Component {
     }
 }
 
-export default TauxDeviseToDay;
+
+const mapStateToProps = (state) => {
+    return {listTauxDeviseToday: state.listTauxDeviseToday}
+}
+
+
+export default connect(mapStateToProps, null)( TauxDeviseToDayComponent);
