@@ -38,7 +38,7 @@ class MonnaieSaisieComponent extends React.Component{
     }
 
     _loadMonnaieList = (deviseId) => {
-        if (StringsUtils.isEmpty(deviseId)) {
+        if (!StringsUtils.isEmpty(deviseId)) {
             Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
                 this.setState({monnaieList: result.data});
             });

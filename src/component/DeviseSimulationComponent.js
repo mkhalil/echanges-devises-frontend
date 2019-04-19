@@ -17,9 +17,16 @@ class DeviseSimulationComponent extends React.Component{
 
     mapDeviseTaux = new Map();
 
+    selectedDeviseHandler;
+
+    constructor(props) {
+        super(props);
+        this.selectedDeviseHandler = props.selectedDeviseHandler;
+    }
 
     onChangeDevise = (event) => {
         const deviseId = event.target.value;
+        this.selectedDeviseHandler(deviseId);
         this.setState({selectedDeviseId:deviseId});
         this.setStateMontant(this.state.montant, deviseId);
         this.setState({montantTotalSaisie : 0});

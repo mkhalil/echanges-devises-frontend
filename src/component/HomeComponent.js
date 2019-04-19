@@ -9,6 +9,9 @@ import MonnaieSaisieComponent from "./MonnaieSaisieComponent";
 class HomeComponent extends React.Component {
 
 
+    state = {deviseId: ''};
+
+
     constructor(props) {
         super(props);
     }
@@ -47,11 +50,11 @@ class HomeComponent extends React.Component {
 
                                 <form>
                                     <div className="row">
-                                        <DeviseSimulationComponent/>
+                                        <DeviseSimulationComponent selectedDeviseHandler={(deviseId) => this.selectedDeviseHandler(deviseId)}/>
                                     </div>
                                     <hr/>
 
-                                        <MonnaieSaisieComponent/>
+                                        <MonnaieSaisieComponent deviseId={this.state.deviseId}/>
                                 </form>
 
 
@@ -125,6 +128,10 @@ class HomeComponent extends React.Component {
                 </div>
             </React.Fragment>
         );
+    }
+
+    selectedDeviseHandler = (deviseId) => {
+        this.setState({deviseId:deviseId});
     }
 }
 
