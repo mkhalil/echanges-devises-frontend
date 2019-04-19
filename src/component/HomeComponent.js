@@ -1,123 +1,20 @@
 import React from "react";
 import TauxDeviseToDayComponent from "./taux/TauxDeviseToDayComponent";
-import ConversionComponent from "./ConversionComponent";
-import MontantEnDT from "./MontantEnDT";
-import Api from "../utiles/Api";
-import MonnaieListComponent from "./MonnaieListComponent";
-import EnumTypeMonnaie from "../utiles/EnumTypeMonnaie";
-import InputSelectBox from "./InputSelectBox";
-import * as MathUtils from "../utiles/MathUtils";
-import * as StringsUtils from "../utiles/StringsUtils";
-import CurrencyFormat from "react-currency-format";
-import TestComponent from "./TestComponent";
+import TableConversionComponent from "./TableConversionComponent";
+import DeviseSimulationComponent from "./DeviseSimulationComponent";
 import * as actionTaux from "../actions/Action";
 import {connect} from "react-redux";
+import MonnaieSaisieComponent from "./MonnaieSaisieComponent";
 
 class HomeComponent extends React.Component {
 
-    state = {
-        selectedDeviseId : '',
-        monnaieList : [],
-        devisesOptionsListe:[],
-        montantEchange : '',
-        montantTauxDevise : '',
-        montant:'',
-        montantTotalSaisie : 0
-    };
-
-    mapDevise = new Map();
-
-    mapCoefficientValeur = new Map();
 
     constructor(props) {
         super(props);
     }
 
-    onChangeDevise = (event) => {
-        console.log("Devise = ", event.target.value);
-        const deviseId = event.target.value;
-        this.setState({selectedDeviseId: deviseId});
-        if (deviseId !== '') {
-            Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
-                console.log("monnaieList = ", result.data);
-                this.setState({monnaieList: result.data});
-            });
-        } else {
-            this.setState({monnaieList: []});
-        }
-        this.setStateMontant(this.state.montant, deviseId);
-        this.setState({montantTotalSaisie : 0});
-        this.mapCoefficientValeur = new Map();
-    }
-
     componentDidMount() {
         this.props.fetchListTauxDevise();
-        /*
-        Api.get("/taux-devises/today").then(
-            result => {
-
-                const options = result.data.map(tauxDevise =>
-
-                {
-                    this.mapDevise.set(tauxDevise.devise.id,{...tauxDevise.devise, taux : tauxDevise.montantAchat});
-                    return {text:tauxDevise.devise.abreviation, value:tauxDevise.devise.id};
-                });
-
-
-                this.setState({
-                    devisesOptionsListe : [{value: '', text: 'Devise'},...options]
-                });
-            }
-        );*/
-
-    }
-
-    setStateMontant = (montant, deviseId) => {
-
-        if (StringsUtils.isEmpty(deviseId)) {
-            this.setState({montantTauxDevise : ''});
-            this.setState({montantEchange : ''});
-
-        }else {
-            this.setState({montantTauxDevise : this.mapDevise.get(parseInt(deviseId)).taux});
-            if (StringsUtils.isEmpty(montant)) {
-                this.setState({montantEchange: ''});
-            }else{
-                this.setState({montantEchange:MathUtils.mathRound(parseInt(deviseId) * montant)});
-            }
-        }
-
-    }
-
-
-    saisieMontant = (event) => {
-        const montant = event.target.value;
-        this.setState({montant:event.target.value});
-        this.setStateMontant(montant, this.state.selectedDeviseId);
-    }
-
-    saisieMonnaie = (coefficient, event) => {
-        let montantSaisie =  parseInt(event.target.value);
-
-        if (!isNaN(montantSaisie)) {
-            this.mapCoefficientValeur.set(coefficient, montantSaisie);
-        }
-        this.setState({montantTotalSaisie:this.calculeSommeMontantSaisies()});
-
-    }
-
-    calculeSommeMontantSaisies = () => {
-        let somme = 0;
-        this.mapCoefficientValeur.forEach((value, key) => {
-            somme += value * key;
-        })
-        return somme;
-    }
-
-    getDeviseAbreviation = (deviseId) => {
-        const devise = this.mapDevise.get(parseInt(deviseId));
-        console.log('devise', devise);
-        return devise !== undefined ? ' ' + devise.abreviation : '';
     }
 
 
@@ -131,7 +28,7 @@ class HomeComponent extends React.Component {
                         <TauxDeviseToDayComponent/>
                     </div>
                     <div className="col-md-9">
-                        <ConversionComponent/>
+                        <TableConversionComponent/>
                         <hr/>
                     </div>
                 </div>
@@ -148,73 +45,13 @@ class HomeComponent extends React.Component {
                             </div>
                             <div className="card-body">
 
-                                <TestComponent deviseId={this.state.selectedDeviseId}/>
                                 <form>
                                     <div className="row">
-                                        <table className="table table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                    Achat de devise
-                                                </th>
-                                                <th>
-                                                    Montant
-                                                </th>
-                                                <th>
-                                                    Cours
-                                                </th>
-                                                <th>
-                                                    Montant en DT
-                                                </th>
-                                            </tr>
-                                            </thead>
-
-                                            <tbody>
-                                            <tr>
-                                                <td>
-
-                                                    <InputSelectBox options={this.state.devisesOptionsListe} value={this.state.selectedDeviseId}
-                                                                    onChange={(event) => this.onChangeDevise(event)}/>
-                                                </td>
-                                                <td>
-                                                    <input type="number" className="form-control" id="montant"  onChange={(event) => this.saisieMontant(event)}/>
-                                                </td>
-                                                <td>
-                                                    <MontantEnDT montant={this.state.montantTauxDevise} />
-                                                </td>
-                                                <td>
-                                                    <MontantEnDT montant={this.state.montantEchange}/>
-                                                </td>
-                                            </tr>
-
-                                            </tbody>
-
-
-                                        </table>
+                                        <DeviseSimulationComponent/>
                                     </div>
                                     <hr/>
-                                    <div className="row">
-                                        <div className="col-12">
-                                        <h3>Montant saisie <span className="badge badge-secondary">
 
-                                            <CurrencyFormat value={this.state.montantTotalSaisie} displayType="text" thousandSeparator=" " decimalSeparator="," suffix={this.getDeviseAbreviation(this.state.selectedDeviseId)} />
-
-                                           </span></h3>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <MonnaieListComponent monnaieList={this.state.monnaieList}
-                                                                  type={EnumTypeMonnaie.BILLET}
-                                                                  handleChange={this.saisieMonnaie}/>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <MonnaieListComponent monnaieList={this.state.monnaieList}
-                                                                  type={EnumTypeMonnaie.PIECE}
-                                                                  handleChange={this.saisieMonnaie}  />
-                                        </div>
-                                    </div>
-
+                                        <MonnaieSaisieComponent/>
                                 </form>
 
 
@@ -290,7 +127,6 @@ class HomeComponent extends React.Component {
         );
     }
 }
-
 
 
 const mapStateToProps = (state) => {

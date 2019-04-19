@@ -1,4 +1,4 @@
 export const isEmpty = (str) => {
-    return str === '' || str === null || str.replace(/\s+/g, '') === '';
+    return str === undefined || str === '' || str === null || str.replace(/\s+/g, '') === '';
 }
 
