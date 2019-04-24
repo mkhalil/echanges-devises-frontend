@@ -19,6 +19,13 @@ class MonnaieSaisieComponent extends React.Component{
         return '';
     }
 
+    initState = () => {
+        this.setState({
+            deviseId : '',
+            monnaieList:[],
+            montantTotalSaisie:0
+        });
+    }
 
     constructor(props) {
         super(props);
@@ -42,11 +49,15 @@ class MonnaieSaisieComponent extends React.Component{
             Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
                 this.setState({monnaieList: result.data});
             });
+        } else {
+            this.initState();
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this._loadMonnaieList(this.props.deviseId);
+        if (this.props.deviseId !== prevProps.deviseId) {
+            this._loadMonnaieList(this.props.deviseId);
+        }
     }
 
 
