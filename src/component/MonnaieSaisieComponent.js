@@ -4,6 +4,7 @@ import CurrencyFormat from "react-currency-format";
 import MonnaieListComponent from "./MonnaieListComponent";
 import * as StringsUtils from "../utiles/StringsUtils";
 import Api from "../utiles/Api";
+import {connect} from "react-redux";
 
 class MonnaieSaisieComponent extends React.Component{
 
@@ -15,13 +16,10 @@ class MonnaieSaisieComponent extends React.Component{
         montantTotalSaisie:0
     }
 
-    getDeviseAbreviation = (deviseId) => {
-        return '';
-    }
-
     initState = () => {
         this.setState({
             deviseId : '',
+            deviseSymbole:'',
             monnaieList:[],
             montantTotalSaisie:0
         });
@@ -46,8 +44,9 @@ class MonnaieSaisieComponent extends React.Component{
 
     _loadMonnaieList = (deviseId) => {
         if (!StringsUtils.isEmpty(deviseId)) {
-            Api.get("/devises/"+ deviseId + "/monnaie").then(result => {
-                this.setState({monnaieList: result.data});
+            Api.get("/devises/"+ deviseId ).then(result => {
+
+                this.setState({monnaieList: result.data.monnaieList, deviseSymbole:result.data.symbole, montantTotalSaisie:0});
             });
         } else {
             this.initState();
@@ -89,9 +88,10 @@ class MonnaieSaisieComponent extends React.Component{
                     <div className="col-12">
                         <h3>Montant saisie <span className="badge badge-secondary">
 
-                                            <CurrencyFormat value={this.state.montantTotalSaisie} displayType="text" thousandSeparator=" " decimalSeparator="," suffix={this.getDeviseAbreviation(this.state.selectedDeviseId)} />
-
-                                           </span></h3>
+                                            <CurrencyFormat value={this.state.montantTotalSaisie} displayType="text" thousandSeparator=" " decimalSeparator=","
+                                                            suffix={this.state.deviseSymbole} />
+                                           </span>
+                        </h3>
                     </div>
                 </div>
                 <div className="row">
@@ -115,4 +115,9 @@ class MonnaieSaisieComponent extends React.Component{
 
 }
 
-export default MonnaieSaisieComponent;
+
+const mapStateToProps = (state) => {
+    return {deviseId: state.selectedDeviseId}
+}
+
+export default connect(mapStateToProps, null) (MonnaieSaisieComponent);

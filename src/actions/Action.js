@@ -3,6 +3,9 @@ import Api from "../utiles/Api";
 
 export const LIST_TAUX_DEVISE = 'LIST_TAUX_DEVISE';
 export const LIST_TAUX_DEVISE_TODAY = 'LIST_TAUX_DEVISE_TODAY';
+export const SELECTED_DEVISE_ID = 'SELECTED_DEVISE_ID';
+export const MONTANT_TOTAL_SAISIE = 'MONTANT_TOTAL_SAISIE';
+
 
 export const deleteTauxDevise = (id) => {
     return dispatch => {

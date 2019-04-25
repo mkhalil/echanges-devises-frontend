@@ -5,6 +5,7 @@ import * as StringsUtils from "../utiles/StringsUtils";
 import * as MathUtils from "../utiles/MathUtils";
 import * as MapperUtil from "../utiles/MapperUtil";
 import MontantEnDT from "./MontantEnDT";
+import * as actions from '../actions/Action';
 class DeviseSimulationComponent extends React.Component{
 
 
@@ -17,19 +18,17 @@ class DeviseSimulationComponent extends React.Component{
 
     mapDeviseTaux = new Map();
 
-    selectedDeviseHandler;
-
     constructor(props) {
         super(props);
-        this.selectedDeviseHandler = props.selectedDeviseHandler;
     }
 
     onChangeDevise = (event) => {
         const deviseId = event.target.value;
-        this.selectedDeviseHandler(deviseId);
         this.setState({selectedDeviseId:deviseId});
         this.setStateMontant(this.state.montant, deviseId);
         this.setState({montantTotalSaisie : 0});
+        console.log(deviseId);
+        this.props.selectDeviseIdHandler(deviseId);
     }
 
 
@@ -107,4 +106,9 @@ const mapStateToProps = (state) => {
     return {listTauxDeviseToday: state.listTauxDeviseToday}
 }
 
-export default connect(mapStateToProps, null) (DeviseSimulationComponent);
+const mapDispatchToProps = dispatch => {
+    return {
+        selectDeviseIdHandler: (deviseId) => dispatch({type:actions.SELECTED_DEVISE_ID, payload:deviseId}),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps) (DeviseSimulationComponent);

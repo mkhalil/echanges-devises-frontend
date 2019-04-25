@@ -50,7 +50,7 @@ class HomeComponent extends React.Component {
 
                                 <form>
                                     <div className="row">
-                                        <DeviseSimulationComponent selectedDeviseHandler={(deviseId) => this.selectedDeviseHandler(deviseId)}/>
+                                        <DeviseSimulationComponent/>
                                     </div>
                                     <hr/>
 
